@@ -18,11 +18,11 @@
             <p>
                 <strong>Statut :</strong>
                 {% if object.status == 'todo' %}
-                    <span class="badge bg-secondary">À faire</span>
+                    <span class="badge bg-secondary text-white">À faire</span>
                 {% elif object.status == 'in_progress' %}
                     <span class="badge bg-warning text-dark">En cours</span>
                 {% elif object.status == 'done' %}
-                    <span class="badge bg-success">Terminé</span>
+                    <span class="badge bg-success text-white">Terminé</span>
                 {% endif %}
             </p>
 
@@ -41,8 +41,17 @@
 
             <!-- Boutons -->
             <div class="mt-4">
+                {% if object.status == 'done' %}
                 <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
-                <a href="{% url 'edit_task' object.id %}" class="btn btn-primary">Modifier</a>
+                {% elif object.status == 'in_progress' %}
+                <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
+                <a href="{% url 'update_status' object.id %}" class="btn btn-warning">Mettre à jour le statut</a>
+                {% elif object.status == 'todo' %}
+                <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
+                    {% if  object.created_by == request.user %}
+                    <a href="{% url 'edit_task' object.id %}" class="btn btn-primary">Modifier</a>
+                    {% endif %}
+                {% endif %}
             </div>
 
         </div>
@@ -64,6 +73,13 @@
                             Par {{ comment.author }} • {{ comment.created_at|date:"d M Y H:i" }}
                         </small>
                     </div>
+                    <form method="post" action="{% url 'delete_comment' comment.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Supprimer ce commentaire ?');">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </form>
                 {% endfor %}
             {% else %}
                 <p class="text-muted">Aucun commentaire pour cette tâche.</p>
