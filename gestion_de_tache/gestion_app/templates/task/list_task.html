@@ -4,7 +4,7 @@
 <div class="d-flex" style="min-height: 100vh;">
    
     <div class="container-fluid py-4 px-4" style="flex: 1; background-color: #f8f9fa;">
-  
+                <h2 class="mb-4 text-center">Vous êtes connecté(e) en tant que {{ user.username }}</h2>
         <div class="row g-4">
             
             <!-- afficher les tâches  -->
@@ -45,21 +45,51 @@
                                     <td>{{ task.assigned_to }}</td>
                                     <td>
                                         {% if task.status == 'done' %}
-                                        <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm"><i class="bi bi-eye "></i></a>
+                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+
                                         {% elif task.status == 'in_progress' %}
-                                         <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm"><i class="bi bi-eye "></i></a>
-                                        <a href="{% url 'update_status' task.id %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil "></i></a>
-                                        {% elif task.status == 'todo' %}
-                                         <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm"><i class="bi bi-eye "></i></a>
-                                        <a href="{% url 'update_status' task.id %}" class="btn btn-warning btn-sm"><i class="bi bi-pencil "></i></a>
-                                        <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Voulez-vous vraiment supprimer cette tâche ?');">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
+                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{% url 'update_status' task.id %}" class="btn btn-warning btn-sm">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+
+                                     {% elif task.status == 'todo' %}
+                                        {% if task.assigned_to != request.user %}
+                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            {% if task.created_by == request.user %}
+                                                <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Voulez-vous vraiment supprimer cette tâche ?');">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+
+                                        {% else %}
+                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a href="{% url 'update_status' task.id %}" class="btn btn-warning btn-sm">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            {% if task.created_by == request.user %}
+                                                <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Voulez-vous vraiment supprimer cette tâche ?');">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            {% endif %}
                                         {% endif %}
+                                    {% endif %}
                                     </td>
                                 </tr>
                                 {% empty %}

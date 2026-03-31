@@ -41,14 +41,16 @@
 
             <!-- Boutons -->
             <div class="mt-4">
-                {% if object.status == 'todo' %}
+                {% if object.status == 'done' %}
                 <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
-                <a href="{% url 'edit_task' object.id %}" class="btn btn-primary">Modifier</a>
                 {% elif object.status == 'in_progress' %}
                 <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
                 <a href="{% url 'update_status' object.id %}" class="btn btn-warning">Mettre à jour le statut</a>
-                {% elif object.status == 'done' %}
+                {% elif object.status == 'todo' %}
                 <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
+                    {% if  object.created_by == request.user %}
+                    <a href="{% url 'edit_task' object.id %}" class="btn btn-primary">Modifier</a>
+                    {% endif %}
                 {% endif %}
             </div>
 
