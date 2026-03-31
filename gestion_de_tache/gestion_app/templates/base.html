@@ -39,14 +39,14 @@
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="#" style="color: white;">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'home' %}" style="color: white;">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" style="color: white;">Tâche</a>
+                    <a class="nav-link" href="{% url 'list_task' %}" style="color: white;">Tâche</a>
                 </li>
                 {% else %}
                 <li class="nav-item active">
-                    <a class="nav-link" href="#" style="color: white;">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="{% url 'home' %}" style="color: white;">Home <span class="sr-only">(current)</span></a>
                 </li>
                 {% endif %}
             </ul>
@@ -58,10 +58,10 @@
                     
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         {% if user.is_authenticated %}
-                            <li><a class="dropdown-item" href="{#}">Se déconnecter</a></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">Se déconnecter</a></li>
                         {% else %}
-                            <li><a class="dropdown-item" href="#">S'inscrire</a></li>
-                            <li><a class="dropdown-item" href="#">Se connecter</a></li>
+                            <li><a class="dropdown-item" href="{% url 'register' %}">S'inscrire</a></li>
+                            <li><a class="dropdown-item" href="{% url 'login' %}">Se connecter</a></li>
                         {% endif %}
                     </ul>
                     

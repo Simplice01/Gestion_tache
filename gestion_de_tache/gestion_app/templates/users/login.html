@@ -1,27 +1,36 @@
 {% extends 'base.html' %}
 
-{% block content % }
+{% block content %}
 
-<div class="container">
-  <div class="row justify-content-center align-items-center shadow" style="height: 80vh;">
-    <form method="post" action="{% url 'login' %}">
-      {% csrf_token %}
-      <div class="form-group">
-        <label for="validationServer01">Username</label>
-        <input type="text" class="form-control" id="validationServer01" aria-describedby="validationServer01Feedback">
-        <small id="validationServer01Feedback" class="form-text text-muted">We'll never share your email with anyone else.</small>
-      </div>
-      <div class="form-group">
-        <label for="exampleInputPassword1">Password</label>
-        <input type="password" class="form-control" id="exampleInputPassword1">
-      </div>
-      <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-      </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
-  </form>
-  </div>
-  <p class="link">Vous n'avez pas encore de compte ? <a href="{% url 'register' %}">S'inscrire</a></p>
-</div>
-{% endblock %}
+   <div class="container" style="width: 50%;">
+        <div class="row shadow p-4  mt-5">
+            <div class="class-form">
+                    <h1 class="form-title text-center pb-4">Login</h1>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-danger">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        <form method="post" action="{% url 'login' %}">
+                            {% csrf_token %}
+                            <div class="form-row">
+                            <div class="col-md-12">
+                                <label for="exampleInputEmail1">Username</label>
+                                <input type="text" class="form-control" id="exampleInputEmail1" name="username" aria-describedby="emailHelp">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="exampleInputPassword1">Password</label>
+                                <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                            </div>
+                            </div>
+                            <div class="form-group form-check">
+                                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                </div>
+                <p class="link">Pas encore inscrit ? <a href="{% url 'register' %}">S'inscrire</a></p>
+        </div>
+    </div>
+{% endblock %} 

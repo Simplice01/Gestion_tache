@@ -19,6 +19,8 @@ from django.urls import include, path
 from gestion_app import views
 
 urlpatterns = [
+     # page d'accueil   
+    path('', views.HomeView.as_view(), name='home'),    
     # formulaire de création de tâche
     path('form_task/', views.CreateTask.as_view(), name='form_task'),
     # liste des tâches
@@ -42,7 +44,8 @@ urlpatterns = [
     # déconnexion
     path('logout/', views.LogoutView.as_view(), name='logout'),
     # inscription d'utilisateur
-    path('register/', views.RegisterView.as_view(), name='register'),
+    path('register/', views.register, name='register'), 
     # liste des tâches assignées à un utilisateur
     path('user_tasks/', views.ListTaskByUser.as_view(), name='user_task_list'),
+    path('tasks/', views.ListTaskView.as_view(), name='list_task'),
 ]

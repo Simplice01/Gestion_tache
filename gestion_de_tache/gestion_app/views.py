@@ -6,6 +6,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
+from .form import CustomUserCreationForm
+from django.contrib import messages
+
 # creation de tâche
 class CreateTask(LoginRequiredMixin, CreateView):
     model = Task
@@ -135,7 +138,7 @@ class ListComment(LoginRequiredMixin, ListView):
 # suppression d'un commentaire
 class DeleteComment(LoginRequiredMixin, DeleteView):
     model = Comment
-    template_name = 'tasks/comment_confirm_delete.html'
+    template_name = 'tasks/detail_task.html'
     login_url = 'login'
 
     def get_object(self, queryset=None):
@@ -162,7 +165,7 @@ class MyTaskListView(LoginRequiredMixin, ListView):
 #suppression d'une tâche   
 class DeleteTask(LoginRequiredMixin, DeleteView):
     model = Task
-    template_name = 'tasks/task_confirm_delete.html'
+    template_name = 'tasks/list_task.html'
     login_url = 'login'
 
     def get_object(self, queryset=None):
@@ -201,7 +204,7 @@ class LoginView(View):
 
         if user is not None:
             login(request, user)
-            return redirect('dashboard')
+            return redirect('list_task')
         else:
             return render(request, 'users/login.html', {'error': 'email ou mot de passe incorrect'})
 
@@ -212,34 +215,41 @@ class LogoutView(View):
         return redirect('login')
     
 # inscription d'utilisateur    
-class RegisterView(View):
-    def get(self, request):
-        return render(request, 'users/register.html')
-    def post(self, request):
-        username = request.POST.get('username')
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
-        if not username or not password:
-         return render(request, 'users/register.html', {'error': 'Remplissez tous les champs'})
-        
-        if User.objects.filter(username=username).exists():
-            return render(request, 'users/register.html', {'error': 'Nom d\'utilisateur déjà pris'})
-
-        user = User.objects.create_user(username=username, email=email, password=password)
-        login(request, user)
-        return redirect('dashboard')
-
-# tableau de bord
-class DashboardView(LoginRequiredMixin, ListView):
-    model = Task
-    template_name = 'task/dashboard.html'
-    context_object_name = 'tasks'
-    login_url = 'login'
-
-    def get_queryset(self):
-        return Task.objects.filter(assigned_to=self.request.user).order_by('-created_at')                  
+def register(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('list_task')
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'users/register.html', {'form': form})
+                
     
 class HomeView(View):
     def get(self, request):
         return render(request, 'home.html')    
+ 
+ 
+
+
+class ListTaskView(ListView):
+    model = Task
+    template_name = 'tasks/list_task.html'
+    context_object_name = 'tasks'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user_id = self.request.GET.get('user')
+
+        if user_id and user_id.isdigit():
+            queryset = queryset.filter(assigned_to_id=int(user_id))
+
+        return queryset.order_by('-id')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # ⚠ Assurez-vous que vous importez bien User
+        context['users'] = User.objects.all()  
+        context['selected_user'] = self.request.GET.get('user', '')
+        return context
