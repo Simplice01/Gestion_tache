@@ -229,27 +229,3 @@ def register(request):
 class HomeView(View):
     def get(self, request):
         return render(request, 'home.html')    
- 
- 
-
-
-class ListTaskView(ListView):
-    model = Task
-    template_name = 'tasks/list_task.html'
-    context_object_name = 'tasks'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        user_id = self.request.GET.get('user')
-
-        if user_id and user_id.isdigit():
-            queryset = queryset.filter(assigned_to_id=int(user_id))
-
-        return queryset.order_by('-id')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # ⚠ Assurez-vous que vous importez bien User
-        context['users'] = User.objects.all()  
-        context['selected_user'] = self.request.GET.get('user', '')
-        return context

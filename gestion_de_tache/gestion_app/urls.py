@@ -47,5 +47,4 @@ urlpatterns = [
     path('register/', views.register, name='register'), 
     # liste des tâches assignées à un utilisateur
     path('user_tasks/', views.ListTaskByUser.as_view(), name='user_task_list'),
-    path('tasks/', views.ListTaskView.as_view(), name='list_task'),
 ]
