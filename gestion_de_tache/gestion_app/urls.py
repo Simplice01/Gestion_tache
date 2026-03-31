@@ -19,8 +19,6 @@ from django.urls import include, path
 from gestion_app import views
 
 urlpatterns = [
-    # tableau de bord
-    path('dashboard/',views.DashboardView.as_view(), name='dashboard'),
     # formulaire de création de tâche
     path('form_task/', views.CreateTask.as_view(), name='form_task'),
     # liste des tâches
