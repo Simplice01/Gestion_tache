@@ -239,3 +239,7 @@ class DashboardView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return Task.objects.filter(assigned_to=self.request.user).order_by('-created_at')                  
+    
+class HomeView(View):
+    def get(self, request):
+        return render(request, 'home.html')    
