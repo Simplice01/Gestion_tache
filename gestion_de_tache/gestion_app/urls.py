@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from gestion_app import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
      # page d'accueil   
@@ -47,4 +48,48 @@ urlpatterns = [
     path('register/', views.register, name='register'), 
     # liste des tâches assignées à un utilisateur
     path('user_tasks/', views.ListTaskByUser.as_view(), name='user_task_list'),
+    #dashboard
+    path('dashboard/', views.DashboardView.as_view(), name='dashboard'),
+
+    # gestion des rôles
+    path('roles/', views.RoleListView.as_view(), name='list_role'),
+    path('roles/create/', views.RoleCreateView.as_view(), name='form_role'),
+    path('roles/<int:pk>/', views.RoleDetailView.as_view(), name='detail_role'),
+    path('roles/<int:pk>/edit/', views.RoleUpdateView.as_view(), name='role_edit'),
+
+    # gestion des profils
+    path('profiles/', views.ProfileListView.as_view(), name='profile_list'),
+    path('profiles/<int:pk>/edit-role/', views.ProfileUpdateRoleView.as_view(), name='profile_role_edit'),
+    
+    # réinitialisation du mot de passe
+    path(
+        'password-reset/',
+        auth_views.PasswordResetView.as_view(
+            template_name='registration/password_reset_form.html',
+            email_template_name='registration/password_reset_email.html',
+            subject_template_name='registration/password_reset_subject.txt'
+        ),
+        name='password_reset'
+    ),
+    path(
+        'password-reset/done/',
+        auth_views.PasswordResetDoneView.as_view(
+            template_name='registration/password_reset_done.html'
+        ),
+        name='password_reset_done'
+    ),
+    path(
+        'reset/<uidb64>/<token>/',
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name='registration/password_reset_confirm.html'
+        ),
+        name='password_reset_confirm'
+    ),
+    path(
+        'reset/done/',
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name='registration/password_reset_complete.html'
+        ),
+        name='password_reset_complete'
+    ),
 ]
