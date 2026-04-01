@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">
+        {% if form.instance.pk %} Modifier un rôle {% else %} Créer un rôle {% endif %}
+    </h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- Nom du rôle -->
+        <div class="mb-3">
+            {{ form.name.label_tag }}
+            {{ form.name }}
+        </div>
+
+        <!-- Permissions -->
+        <div class="mb-3">
+            {{ form.permissions.label_tag }}
+            {{ form.permissions }}
+        </div>
+
+        <!-- Boutons -->
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{% url 'list_role' %}" class="btn btn-secondary">Retour</a>
+    </form>
+</div>
+{% endblock %}

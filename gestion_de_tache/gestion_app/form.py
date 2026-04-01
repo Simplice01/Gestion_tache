@@ -2,6 +2,7 @@ from django import forms
 from .models import Profile, Task
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group, Permission, User
+
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
