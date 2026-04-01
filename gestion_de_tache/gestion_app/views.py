@@ -305,10 +305,10 @@ class RoleDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('list_role')
     login_url = 'login'
 # liste des profils
-class ProfileListView(LoginRequiredMixin, ListView):
-    model = Profile
+class UserListView(LoginRequiredMixin, ListView):
+    model = User
     template_name = 'users/list_users.html'
-    context_object_name = 'profiles'
+    context_object_name = 'users'
     login_url = 'login'
 
 # édition du rôle d'un profil
