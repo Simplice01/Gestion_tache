@@ -257,7 +257,7 @@ def register(request):
 #Liste des rôles
 class RoleListView(LoginRequiredMixin, ListView):
     model = Group
-    template_name = 'roles/list.html'
+    template_name = 'roles/list_role.html'
     context_object_name = 'roles'
     login_url = 'login'
 
