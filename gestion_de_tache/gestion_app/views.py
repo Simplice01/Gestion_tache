@@ -227,7 +227,7 @@ class LoginView(View):
 
         if user is not None:
             login(request, user)
-            return redirect('list_task')
+            return redirect('dashboard')
         else:
             return render(request, 'users/login.html', {'error': 'email ou mot de passe incorrect'})
 
