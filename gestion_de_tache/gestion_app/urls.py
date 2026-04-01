@@ -56,6 +56,7 @@ urlpatterns = [
     path('roles/create/', views.RoleCreateView.as_view(), name='form_role'),
     path('roles/<int:pk>/', views.RoleDetailView.as_view(), name='detail_role'),
     path('roles/<int:pk>/edit/', views.RoleUpdateView.as_view(), name='role_edit'),
+    path('roles/<int:pk>/delete/', views.RoleDeleteView.as_view(), name='role_delete'),
 
     # gestion des profils
     path('profiles/', views.ProfileListView.as_view(), name='profile_list'),
