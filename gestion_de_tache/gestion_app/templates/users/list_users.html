@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="d-flex" style="min-height: 100vh;">
+   <!-- Sidebar -->
+    {% include 'dashboard/sidebar.html' %}
+
+    <div class="container mt-5">
+        <h2 class="mb-4">Liste des utilisateurs</h2>
+
+        <a href="{% url 'register' %}" class="btn btn-success mb-3">
+            + Ajouter un utilisateur
+        </a>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Nom d'utilisateur</th>
+                    <th>Email</th>
+                    <th>Rôles</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% for role in user.roles.all %}
+                            <span class="badge bg-primary">
+                                {{ role.name }}
+                            </span>
+                        {% empty %}
+                            <span class="text-muted">Aucun rôle</span>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <a href="{% url 'profile_role_edit' user.id %}" class="btn btn-warning btn-sm">
+                            <i class="fas fa-edit"></i>
+                        </a>
+
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endblock %}
