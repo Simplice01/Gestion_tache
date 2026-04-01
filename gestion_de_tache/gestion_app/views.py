@@ -15,6 +15,7 @@ from .form import RoleForm, ProfileRoleForm
 from .form import PERMISSION_TRANSLATIONS
 from django.contrib.auth.models import Permission
 from django.contrib.auth.decorators import login_required
+from django.db.models import Count
 
 # creation de tâche
 class CreateTask(LoginRequiredMixin, CreateView):
@@ -247,7 +248,7 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('list_task')
+            return redirect('list_users')
     else:
         form = CustomUserCreationForm()
 
@@ -260,6 +261,11 @@ class RoleListView(LoginRequiredMixin, ListView):
     template_name = 'roles/list_role.html'
     context_object_name = 'roles'
     login_url = 'login'
+
+    def get_queryset(self):
+        return Group.objects.annotate(
+            user_count=Count('profiles')
+        )
 
 # detail d'un rôle
 class RoleDetailView(LoginRequiredMixin, DetailView):
