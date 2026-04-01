@@ -1,6 +1,7 @@
+from django import contrib
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView, View
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView, View
 from .models import Task, Comment
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
@@ -8,6 +9,12 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from .form import CustomUserCreationForm
 from django.contrib import messages
+from .models import Profile
+from django.contrib.auth.models import Group
+from .form import RoleForm, ProfileRoleForm
+from .form import PERMISSION_TRANSLATIONS
+from django.contrib.auth.models import Permission
+from django.contrib.auth.decorators import login_required
 
 # creation de tâche
 class CreateTask(LoginRequiredMixin, CreateView):
@@ -190,6 +197,22 @@ class ListTaskByUser(LoginRequiredMixin, ListView):
         user_id = self.kwargs['user_id']
         return Task.objects.filter(assigned_to_id=user_id).order_by('-created_at')
 
+# page d'accueil
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'dashboard.html'
+    login_url = 'login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['count_tasks_total'] = Task.objects.count()
+        context['count_tasks_todo'] = Task.objects.filter(status='todo').count()
+        context['count_tasks_in_progress'] = Task.objects.filter(status='in_progress').count()
+        context['count_tasks_done'] = Task.objects.filter(status='done').count()
+        context['count_active_users'] = User.objects.filter(assigned_tasks__isnull=False).distinct().count()
+
+        return context
+    
 # authentification
 
 class LoginView(View):
@@ -215,7 +238,11 @@ class LogoutView(View):
         return redirect('login')
     
 # inscription d'utilisateur    
+@login_required(login_url='login')
 def register(request):
+    if not request.user.profile.has_permission('add_user', app_label='auth'):
+        raise PermissionDenied("Vous n'avez pas le droit de créer un utilisateur.")
+
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -223,9 +250,71 @@ def register(request):
             return redirect('list_task')
     else:
         form = CustomUserCreationForm()
+
     return render(request, 'users/register.html', {'form': form})
                 
-    
+
+#Liste des rôles
+class RoleListView(LoginRequiredMixin, ListView):
+    model = Group
+    template_name = 'roles/list.html'
+    context_object_name = 'roles'
+    login_url = 'login'
+
+# detail d'un rôle
+class RoleDetailView(LoginRequiredMixin, DetailView):
+    model = Group
+    template_name = 'roles/detail_role.html'
+    context_object_name = 'role'
+    login_url = 'login'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        translated_permissions = []
+        for permission in self.object.permissions.all():
+            label = PERMISSION_TRANSLATIONS.get(permission.codename, permission.name)
+            translated_permissions.append({
+                'codename': permission.codename,
+                'label': label
+            })
+
+        context['translated_permissions'] = translated_permissions
+        return context
+
+
+# création d'un rôle
+class RoleCreateView(LoginRequiredMixin, CreateView):
+    model = Group
+    form_class = RoleForm
+    template_name = 'roles/role_form.html'
+    success_url = reverse_lazy('list_role')
+    login_url = 'login'
+
+# édition d'un rôle
+class RoleUpdateView(LoginRequiredMixin, UpdateView):
+    model = Group
+    form_class = RoleForm
+    template_name = 'roles/role_form.html'
+    success_url = reverse_lazy('list_role')
+    login_url = 'login'
+
+# liste des profils
+class ProfileListView(LoginRequiredMixin, ListView):
+    model = Profile
+    template_name = 'users/list_users.html'
+    context_object_name = 'profiles'
+    login_url = 'login'
+
+# édition du rôle d'un profil
+class ProfileUpdateRoleView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileRoleForm
+    template_name = 'users/register.html'
+    success_url = reverse_lazy('list_users')
+    login_url = 'login'
+
+ # page d'accueil          
 class HomeView(View):
     def get(self, request):
         return render(request, 'home.html')    
