@@ -31,21 +31,21 @@
                                     </thead>
 
                                     <tbody>
-                                        {% for profile in profiles %}
+                                        {% for user in users %}
                                         <tr>
-                                            <td>{{ profile.user.username }}</td>
-                                            <td>{{ profile.user.email }}</td>
+                                            <td>{{ user.username }}</td>
+                                            <td>{{ user.email }}</td>
                                             <td>
-                                                {% if profile.role %}
+                                                {% if user.profile.role %}
                                                 <span class="badge bg-primary">
-                                                    {{ profile.role.name }}
+                                                    {{ user.profile.role.name }}
                                                 </span>
                                                 {% else %}
                                                 <span class="text-muted">Aucun rôle</span>
                                                     {% endif %}
                                             </td>
                                             <td>
-                                                <a href="{% url 'profile_role_edit' profile.pk %}" class="btn btn-warning btn-sm">
+                                                <a href="{% url 'profile_role_edit' user.profile.pk %}" class="btn btn-warning btn-sm">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
                                             </td>
