@@ -199,7 +199,7 @@ class ListTaskByUser(LoginRequiredMixin, ListView):
 
 # page d'accueil
 class DashboardView(LoginRequiredMixin, TemplateView):
-    template_name = 'dashboard.html'
+    template_name = 'dashboard/dashboard.html'
     login_url = 'login'
 
     def get_context_data(self, **kwargs):
