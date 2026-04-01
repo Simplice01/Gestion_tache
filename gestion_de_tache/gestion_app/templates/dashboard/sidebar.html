@@ -1,7 +1,7 @@
-    <div class="bg-dark text-white p-4" style="width: 220px; min-height: 100vh;">
+    <div class="text-white p-4" style="width: 220px; min-height: 100vh; background-color: rgb(19, 10, 121);">
         <h4 class="text-center mb-4">My Task</h4>
         <hr>
-        <ul class="nav flex-column">
+        <ul class="nav flex-column mb-auto">
             <li class="nav-item mb-2">
                 <a href="{% url 'dashboard' %}" class="nav-link text-white"><i class="bi bi-speedometer2"></i> &nbsp;Dashboard</a>
                 <a href="{% url 'list_task' %}" class="nav-link text-white"><i class="bi bi-clipboard"></i> &nbsp;Tâches</a>
@@ -9,10 +9,10 @@
                 <a href="{% url 'profile_list' %}" class="nav-link text-white"><i class="bi bi-people"></i> &nbsp;Users</a>
             </li>
         </ul>
-         <hr>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-2">
-                <a href="{% url 'logout' %}" class="nav-link text-danger" style="font-weight: bold;"><i class="bi bi-box-arrow-right"></i> &nbsp;Deconnexion</a>
-            </li>
-        </ul>
+            <hr>
+            <ul class="nav flex-column mb-auto">
+                <li class="nav-item mb-2">
+                    <a href="{% url 'logout' %}" class="nav-link text-white" style="font-weight: bold;"><i class="bi bi-box-arrow-right"></i> &nbsp;Deconnexion</a>
+                </li>
+            </ul>
     </div>
