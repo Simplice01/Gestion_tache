@@ -60,7 +60,7 @@ urlpatterns = [
 
     # gestion des profils
     path('profiles/', views.UserListView.as_view(), name='list_users'),
-    path('profiles/<int:pk>/edit-role/', views.ProfileUpdateRoleView.as_view(), name='profile_role_edit'),
+    path('profiles/<int:pk>/edit-role/', views.ProfileUpdateRoleView.as_view(), name='edit_profile'),
     
     # réinitialisation du mot de passe
     path(
