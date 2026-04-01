@@ -299,6 +299,11 @@ class RoleUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('list_role')
     login_url = 'login'
 
+class RoleDeleteView(LoginRequiredMixin, DeleteView):
+    model = Group
+    template_name = 'roles/role_confirm_delete.html'
+    success_url = reverse_lazy('list_role')
+    login_url = 'login'
 # liste des profils
 class ProfileListView(LoginRequiredMixin, ListView):
     model = Profile
