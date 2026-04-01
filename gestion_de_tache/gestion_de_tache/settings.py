@@ -69,6 +69,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gestion_de_tache.wsgi.application'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'no-reply@example.com'
+
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
