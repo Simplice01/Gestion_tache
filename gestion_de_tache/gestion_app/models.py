@@ -63,3 +63,12 @@ class Profile(models.Model):
             codename=permission_codename,
             content_type__app_label=app_label
         ).exists()
+    
+
+
+
+
+
+
+
+        
