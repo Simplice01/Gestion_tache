@@ -20,46 +20,46 @@
                         <a href="{% url 'form_role' %}" class="btn btn-primary mb-3">
                             <small><i class="bi bi-plus"></i></small> Ajouter un rôle
                         </a>
-                     <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Nom</th>
-                <th>Nombre d'utilisateurs</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Nombre d'utilisateurs</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
 
-        <tbody>
-            {% for role in roles %}
-            <tr>
-                <!-- Nom du rôle -->
-                <td>{{ role.name }}</td>
+                            <tbody>
+                                {% for role in roles %}
+                                <tr>
+                                    <!-- Nom du rôle -->
+                                    <td>{{ role.name }}</td>
 
-                <!-- Nombre d'utilisateurs du rôle -->
-                <td>{{ role.user_set.count }}</td>
+                                    <!-- Nombre d'utilisateurs du rôle -->
+                                    <td>{{ role.user_set.count }}</td>
 
-                <!-- Actions : éditer / supprimer -->
-                <td>
-                    <a href="{% url 'role_edit' role.id %}" class="btn btn-warning btn-sm me-1">
-                        <i class="bi bi-pencil"></i>
-                    </a>
+                                    <!-- Actions : éditer / supprimer -->
+                                    <td>
+                                        <a href="{% url 'role_edit' role.id %}" class="btn btn-warning btn-sm me-1">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
 
-                    <form action="{% url 'role_delete' role.id %}" method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger btn-sm"
-                                onclick="return confirm('Voulez-vous vraiment supprimer ce rôle ?');">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="3" class="text-center text-muted">Aucun rôle trouvé.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+                                        <form action="{% url 'role_delete' role.id %}" method="post" style="display:inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Voulez-vous vraiment supprimer ce rôle ?');">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="3" class="text-center text-muted">Aucun rôle trouvé.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

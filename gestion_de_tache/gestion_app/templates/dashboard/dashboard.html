@@ -13,57 +13,57 @@
 
         <div class="row g-4">
             <div class="col-lg-6">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Tâches totales</h5>
                     </div>
                     <div class="card-body">
-                    <h1 class="display-4">{{ nb_tasks }}</h1>
+                    <h1 class="display-4">{{ count_tasks_total }}</h1>
                         <p class="text-muted">Nombre total de tâches </p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Tâches terminées</h5>
                     </div>
                     <div class="card-body">
-                        <h1 class="display-4">{{ nb_done_tasks }}</h1>
+                        <h1 class="display-4">{{ count_tasks_done }}</h1>
                         <p class="text-muted">Nombre de tâches terminées</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Tâches en cours</h5>
                     </div>
                     <div class="card-body">
-                        <h1 class="display-4">{{ nb_pending_tasks }}</h1>
+                        <h1 class="display-4">{{ count_tasks_in_progress }}</h1>
                         <p class="text-muted">Nombre de tâches en cours</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                         <h5 class="mb-0">Tâches à faire</h5>
                     </div>
                     <div class="card-body">
-                        <h1 class="display-4">{{ nb_todo_tasks }}</h1>
+                        <h1 class="display-4">{{ count_tasks_todo }}</h1>
                         <p class="text-muted">Nombre de tâches à faire</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header d-flex justify-content-between align-items-center">
                             <h5 class="mb-0">Utilisateurs ayant des tâches</h5>
                         </div>
                     <div class="card-body">
-                        <h1 class="display-4">{{ nb_users_with_tasks }}</h1>
-                        <p class="text-muted">Nombre d'utilisateurs ayant des tâches à faire</p>
+                        <h1 class="display-4">{{ count_active_users }}</h1>
+                        <p class="text-muted">Nombre d'utilisateurs à qui des tâches sont assignées</p>
                     </div>
                 </div>
             </div>
