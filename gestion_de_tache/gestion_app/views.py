@@ -315,7 +315,7 @@ class UserListView(LoginRequiredMixin, ListView):
 class ProfileUpdateRoleView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileRoleForm
-    template_name = 'users/register.html'
+    template_name = 'users/edit_profile.html'
     success_url = reverse_lazy('list_users')
     login_url = 'login'
 
