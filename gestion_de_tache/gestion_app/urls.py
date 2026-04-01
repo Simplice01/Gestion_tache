@@ -59,7 +59,7 @@ urlpatterns = [
     path('roles/<int:pk>/delete/', views.RoleDeleteView.as_view(), name='role_delete'),
 
     # gestion des profils
-    path('profiles/', views.ProfileListView.as_view(), name='profile_list'),
+    path('profiles/', views.UserListView.as_view(), name='list_users'),
     path('profiles/<int:pk>/edit-role/', views.ProfileUpdateRoleView.as_view(), name='profile_role_edit'),
     
     # réinitialisation du mot de passe
