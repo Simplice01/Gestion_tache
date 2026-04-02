@@ -17,16 +17,32 @@
                                 <i class="fa fa-wave-pulse text-muted"></i>
                             </div>
                             <div class="card-body">
-                                <a href="{% url 'register' %}" class="btn btn-primary mb-3">
-                                    <small><i class="bi bi-plus"></i></small> Ajouter un utilisateur
-                                </a>
+                                {% if user.is_authenticated and user.profile.role %}
+                                    {% for permission in user.profile.role.permissions.all %}
+                                        {% if permission.codename == 'add_user' %}
+                                            <a href="{% url 'register' %}" class="btn btn-primary mb-3">
+                                                <small><i class="bi bi-plus"></i></small> Ajouter un utilisateur
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th>Nom d'utilisateur</th>
                                             <th>Email</th>
                                             <th>Rôles</th>
-                                            <th>Actions</th>
+                                            <th>    
+                                                {% if user.is_authenticated and user.profile.role %}
+                                                    {% for permission in user.profile.role.permissions.all %}
+                                                    
+                                                        {% if permission.codename == 'change_user' %}
+                                                          Actions
+                                                        {% endif %}
+
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </th>
                                         </tr>
                                     </thead>
 
@@ -45,9 +61,17 @@
                                                     {% endif %}
                                             </td>
                                             <td>
-                                                <a href="{% url 'edit_profile' user.profile.pk %}" class="btn btn-warning btn-sm">
-                                                    <i class="bi bi-pencil"></i>
-                                                </a>
+                                                {% if user.is_authenticated and user.profile.role %}
+                                                    {% for permission in user.profile.role.permissions.all %}
+                                                    
+                                                        {% if permission.codename == 'change_profile' %}
+                                                            <a href="{% url 'edit_profile' user.profile.pk %}" class="btn btn-warning btn-sm">
+                                                                <i class="bi bi-pencil"></i>
+                                                            </a>
+                                                        {% endif %}
+
+                                                    {% endfor %}
+                                                {% endif %}
                                             </td>
                                         </tr>
                                         {% endfor %}
@@ -60,3 +84,6 @@
     </div>
 </div>
 {% endblock %}
+
+
+

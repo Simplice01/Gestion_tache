@@ -17,9 +17,18 @@
                         <i class="fa fa-wave-pulse text-muted"></i>
                     </div>
                     <div class="card-body">
-                        <a href="{% url 'form_role' %}" class="btn btn-primary mb-3">
-                            <small><i class="bi bi-plus"></i></small> Ajouter un rôle
-                        </a>
+                        {% if user.is_authenticated and user.profile.role %}
+                        {% for permission in user.profile.role.permissions.all %}
+                        
+                            {% if permission.codename == 'add_group' %}
+                                <a href="{% url 'form_role' %}" class="btn btn-primary mb-3">
+                                 <small><i class="bi bi-plus"></i></small> Ajouter un rôle
+                                </a>
+                            {% endif %}
+
+                        {% endfor %}
+                        {% endif %}
+                        
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -36,21 +45,39 @@
                                     <td>{{ role.name }}</td>
 
                                     <!-- Nombre d'utilisateurs du rôle -->
-                                    <td>{{ role.user_set.count }}</td>
+                                    <td>{{ user_count }}</td>
 
                                     <!-- Actions : éditer / supprimer -->
                                     <td>
-                                        <a href="{% url 'role_edit' role.id %}" class="btn btn-warning btn-sm me-1">
-                                            <i class="bi bi-pencil"></i>
-                                        </a>
+                                        
+                                        {% if user.is_authenticated and user.profile.role %}
+                                            {% for permission in user.profile.role.permissions.all %}
+                                            
+                                                {% if permission.codename == 'view_group' %}
+                                                    <a href="{% url 'detail_role' role.id %}" class="btn btn-info btn-sm">
+                                                        <i class="bi bi-eye"></i>
+                                                    </a>
+                                                {% endif %}
 
-                                        <form action="{% url 'role_delete' role.id %}" method="post" style="display:inline;">
-                                            {% csrf_token %}
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Voulez-vous vraiment supprimer ce rôle ?');">
-                                                <i class="bi bi-trash"></i>
-                                            </button>
-                                        </form>
+                                                {% if permission.codename == 'change_group' %}
+                                                    <a href="{% url 'role_edit' role.id %}" class="btn btn-warning btn-sm me-1">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </a>
+                                                {% endif %}
+
+                                                {% if permission.codename == 'delete_group' %}
+                                                    <form action="{% url 'role_delete' role.id %}" method="post" style="display:inline;">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                                onclick="return confirm('Voulez-vous vraiment supprimer ce rôle ?');">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                {% endif %}
+
+                                            {% endfor %}
+                                        {% endif %}
+                                                                                
                                     </td>
                                 </tr>
                                 {% empty %}
@@ -67,3 +94,5 @@
     </div>
 </div>
 {% endblock %}
+
+

@@ -108,3 +108,26 @@
 </div>
 
 {% endblock %}
+
+
+{% if user.is_authenticated and user.profile.role %}
+    {% for permission in user.profile.role.permissions.all %}
+       
+        {% if permission.codename == 'change_task' %}
+            <a href="{% url 'edit_task' task.pk %}" class="btn btn-warning">Modifier</a>
+        {% endif %}
+
+        {% if permission.codename == 'delete_task' %}
+            <a href="{% url 'delete_task' task.pk %}" class="btn btn-danger">Supprimer</a>
+        {% endif %}
+
+        {% if permission.codename == 'change_task_status' %}
+            <a href="{% url 'update_status' task.pk %}" class="btn btn-info">Changer le statut</a>
+        {% endif %}
+
+        {% if permission.codename == 'add_comment' %}
+            <a href="{% url 'add_comment' task.pk %}" class="btn btn-primary">Ajouter un commentaire</a>
+        {% endif %}
+
+    {% endfor %}
+{% endif %}
