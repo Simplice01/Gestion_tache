@@ -5,7 +5,7 @@
    <!-- Sidebar -->
     {% include 'dashboard/sidebar.html' %}
     <div class="container-fluid py-4 px-4" style="flex: 1; background-color: #f8f9fa;">
-                <h2 class="mb-4 text-center">Vous êtes connecté(e) en tant que {{ user.username }}</h2>
+        <h2 class="mb-4">Gestion des tâches</h2>
         <div class="row g-4">
             
             <!-- afficher les tâches  -->
@@ -59,13 +59,18 @@
                                             </a>
 
                                         {% elif task.status == 'in_progress' %}
+                                            {% if task.assigned_to != request.user %}
+                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            {% else %}
                                             <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
                                                 <i class="bi bi-eye"></i>
                                             </a>
                                             <a href="{% url 'update_status' task.id %}" class="btn btn-warning btn-sm">
                                                 <i class="bi bi-pencil"></i>
                                             </a>
-
+                                            {% endif %}
                                      {% elif task.status == 'todo' %}
                                         {% if task.assigned_to != request.user %}
                                             <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">

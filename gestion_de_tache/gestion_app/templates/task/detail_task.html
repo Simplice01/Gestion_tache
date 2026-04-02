@@ -44,8 +44,12 @@
                 {% if object.status == 'done' %}
                 <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
                 {% elif object.status == 'in_progress' %}
-                <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
-                <a href="{% url 'update_status' object.id %}" class="btn btn-warning">Mettre à jour le statut</a>
+                    {% if task.assigned_to != request.user %}
+                        <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
+                    {% else %}
+                        <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
+                        <a href="{% url 'update_status' object.id %}" class="btn btn-warning">Mettre à jour le statut</a>
+                    {% endif %}
                 {% elif object.status == 'todo' %}
                 <a href="{% url 'list_task' %}" class="btn btn-secondary">Retour</a>
                     {% if  object.created_by == request.user %}
@@ -110,3 +114,10 @@
 
 </div>
 {% endblock %}
+
+
+
+
+
+    
+                
