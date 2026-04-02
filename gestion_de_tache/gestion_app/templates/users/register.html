@@ -4,7 +4,7 @@
     <div class="container" style="width: 50%;">
         <div class="row shadow p-4  mt-5">
             <div class="class-form">
-                    <h1 class="form-title text-center pb-4">Inscription</h1>
+                    <h1 class="form-title text-center pb-4">Création d'un utilisateur</h1>
                         {% if messages %}
                             {% for message in messages %}
                                 <div class="alert alert-danger">{{ message }}</div>
@@ -55,10 +55,9 @@
                                         <div class="text-danger">{{ form.non_field_errors }}</div>
                                     </div>
                                 {% endif %}
-                                <button type="submit" class="btn btn-primary">S'inscrire</button>
+                                <button type="submit" class="btn btn-primary">Créer un compte</button>
                         </form>
             </div>
-                <p class="link">Déjà inscrit ? <a href="{% url 'login' %}">Se connecter</a></p>
         </div>
     </div>
 {% endblock %} 

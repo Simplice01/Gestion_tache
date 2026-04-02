@@ -61,17 +61,17 @@
                                                     {% endif %}
                                             </td>
                                             <td>
-                                                {% if user.is_authenticated and user.profile.role %}
-                                                    {% for permission in user.profile.role.permissions.all %}
-                                                    
-                                                        {% if permission.codename == 'change_profile' %}
-                                                            <a href="{% url 'edit_profile' user.profile.pk %}" class="btn btn-warning btn-sm">
-                                                                <i class="bi bi-pencil"></i>
-                                                            </a>
-                                                        {% endif %}
+           {% if request.user.is_authenticated %}
+    {% for permission in request.user.profile.role.permissions.all %}
+        
+        {% if permission.codename == 'change_group' %}
+            <a href="{% url 'edit_profile' user.profile.pk %}" class="btn btn-warning btn-sm">
+                <i class="bi bi-pencil"></i>
+            </a>
+        {% endif %}
 
-                                                    {% endfor %}
-                                                {% endif %}
+    {% endfor %}
+{% endif %}
                                             </td>
                                         </tr>
                                         {% endfor %}
