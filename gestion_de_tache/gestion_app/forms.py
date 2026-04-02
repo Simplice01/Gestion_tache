@@ -1,7 +1,7 @@
 from django import forms
 from .models import Profile, Task
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import Group, Permission, User
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -115,3 +115,31 @@ class ProfileRoleForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['role']        
+
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(
+        label='Adresse e-mail',
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Entrez votre adresse e-mail'
+        })
+    )
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(
+        label='Nouveau mot de passe',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Nouveau mot de passe'
+        })
+    )
+    new_password2 = forms.CharField(
+        label='Confirmer le mot de passe',
+        widget=forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Confirmez le mot de passe'
+        })
+    )        
