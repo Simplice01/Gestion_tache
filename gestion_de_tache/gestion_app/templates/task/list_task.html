@@ -16,9 +16,17 @@
                         <i class="fa fa-wave-pulse text-muted"></i>
                     </div>
                     <div class="card-body">
-                        <a href="{% url 'form_task' %}" class="btn btn-primary mb-3">
-                            <small><i class="bi bi-plus"></i></small> Ajouter une tâche
-                        </a>
+                                {% if user.is_authenticated and user.profile.role %}
+                                    {% for permission in user.profile.role.permissions.all %}
+                                        {% if permission.codename == 'add_task' %}
+                                            <a href="{% url 'form_task' %}" class="btn btn-primary mb-3">
+                                                <small><i class="bi bi-plus"></i></small> Ajouter une tâche
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+
+                        
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
