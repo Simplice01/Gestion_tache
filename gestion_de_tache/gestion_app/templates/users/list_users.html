@@ -77,11 +77,11 @@
                                                             <a href="{% url 'edit_profile' user.profile.pk %}" class="btn btn-warning btn-sm">
                                                                 <i class="bi bi-pencil"></i>
                                                             </a>       
-                                                            <a href="{% url 'toggle_user_status' user.pk %}">
+                                                            <a href="{% url 'toggle_user_status' user.pk %}" class="btn btn-info btn-sm">
                                                                 {% if user.is_active %}
-                                                                    <i class="bi bi-"></i>Désactiver
+                                                                    <i class="bi bi-check-circle"></i>
                                                                 {% else %}
-                                                                    Réactiver
+                                                                    <i class="bi bi-circle"></i>
                                                                 {% endif %}
                                                             </a>           
                                                         {% endif %}
