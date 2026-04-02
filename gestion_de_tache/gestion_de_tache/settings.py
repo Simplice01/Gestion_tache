@@ -48,6 +48,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'gestion_app.middleware.ForceLogoutIfInactiveMiddleware',
 ]
 
 ROOT_URLCONF = 'gestion_de_tache.urls'
