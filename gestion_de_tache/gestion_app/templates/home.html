@@ -2,13 +2,61 @@
 
 {% block content %}
 
+<!-- Hero Section -->
+<section class=" text-center" style="background-color: rgb(19, 10, 121); color: white; padding: 80px 20px;">
     <div class="container">
-        <div class="row ">
-            <div class="col-md-12 text-center mt-5">
-                <h1>Bienvenue sur My Task</h1>
-                <p>Gérez vos tâches efficacement avec notre application de gestion de tâches. Créez, organisez et suivez vos tâches pour rester productif et atteindre vos objectifs.</p>
+        <h1 class="display-4">Bienvenue sur My Task</h1>
+        <p class="lead">Gérez vos tâches efficacement et collaborez avec votre équipe en temps réel.</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg mt-3">Accéder au Dashboard</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="btn btn-light btn-lg mt-3">Se connecter</a>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="container my-5">
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-plus-circle" style="font-size: 3rem; color: rgb(19, 10, 121);"></i>
+                    <h5 class="card-title mt-3">Créer une tâche</h5>
+                    <p class="card-text">Ajoutez facilement vos tâches et commencez à les organiser immédiatement.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-person-check" style="font-size: 3rem; color: rgb(19, 10, 121);"></i>
+                    <h5 class="card-title mt-3">Assigner à un utilisateur</h5>
+                    <p class="card-text">Attribuez vos tâches aux membres de votre équipe pour plus de productivité.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <i class="bi bi-check2-square" style="font-size: 3rem; color: rgb(19, 10, 121);"></i>
+                    <h5 class="card-title mt-3">Suivi des statuts</h5>
+                    <p class="card-text">Visualisez l’avancement des tâches : À faire, En cours, Terminé.</p>
+                </div>
             </div>
         </div>
     </div>
+</section>
 
+<!-- Call to Action -->
+<section class="text-center py-5" style="background-color: rgb(240, 240, 255);">
+    <div class="container">
+        <h2>Commencez à gérer vos tâches dès maintenant !</h2>
+        {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg mt-3" style="background-color: rgb(19, 10, 121); border-color: rgb(19, 10, 121);">Voir le Dashboard</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="btn btn-primary btn-lg mt-3" style="background-color: rgb(19, 10, 121); border-color: rgb(19, 10, 121);">Se connecter</a>
+        {% endif %}
+    </div>
+</section>
 {% endblock %}

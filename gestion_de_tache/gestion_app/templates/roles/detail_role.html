@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <!-- Carte principale -->
+    <div class="card shadow">
+        <div class="card-header bg-dark text-white">
+            <h4>Les permissions de ce rôle</h4>
+        </div>
+
+        <div class="card-body">
+
+            <!-- Titre -->
+            <h3 class="mb-3">{{ role.name }}</h3>
+
+
+            <!-- permissions -->
+            <p><strong>Permissions :</strong></p>
+            <div class="border p-3 rounded bg-light">
+                <ul class="list-unstyled">
+                    {% for permission in object.permissions.all %}
+                        <li>{{ permission.name }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Boutons -->
+            <div class="mt-4">
+                <a href="{% url 'list_role' %}" class="btn btn-secondary">Retour</a>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
