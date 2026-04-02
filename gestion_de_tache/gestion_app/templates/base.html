@@ -54,7 +54,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" id="userDropdown" aria-expanded="false" style="color: white;">
                         {% if user.is_authenticated %}
-                            {{ user.username }} <i class="bi bi-person"></i> 
+                            <i class="bi bi-person"></i> {{ user.username }} 
                         {% else %}
                             <i class="bi bi-person"></i>
                         {% endif %}
