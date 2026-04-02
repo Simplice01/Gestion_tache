@@ -16,6 +16,7 @@ from .form import PERMISSION_TRANSLATIONS
 from django.contrib.auth.models import Permission
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
+from django.shortcuts import get_object_or_404, redirect
 
 # creation de tâche
 class CreateTask(LoginRequiredMixin, CreateView):
@@ -329,3 +330,21 @@ class ProfileUpdateRoleView(LoginRequiredMixin, UpdateView):
 class HomeView(View):
     def get(self, request):
         return render(request, 'home.html')    
+
+
+
+@login_required(login_url='login')
+def toggle_user_status(request, pk):
+    if not request.user.profile.has_permission('change_user', app_label='auth'):
+        raise PermissionDenied("Vous n'avez pas le droit de modifier les utilisateurs.")
+
+    user = get_object_or_404(User, pk=pk)
+
+    # éviter de se désactiver soi-même
+    if user == request.user:
+        raise PermissionDenied("Vous ne pouvez pas désactiver votre propre compte.")
+
+    user.is_active = not user.is_active
+    user.save()
+
+    return redirect('list_users')    
