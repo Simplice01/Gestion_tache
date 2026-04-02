@@ -7,16 +7,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
-from .form import CustomUserCreationForm
+from .forms import  CustomUserCreationForm,CustomSetPasswordForm,CustomPasswordResetForm,RoleForm, ProfileRoleForm
 from django.contrib import messages
 from .models import Profile
-from django.contrib.auth.models import Group
-from .form import RoleForm, ProfileRoleForm
-from .form import PERMISSION_TRANSLATIONS
+from django.contrib.auth.models import Group 
+from .forms import PERMISSION_TRANSLATIONS
 from django.contrib.auth.models import Permission
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect
+from django.contrib.auth import views as auth_views
 
 # creation de tâche
 class CreateTask(LoginRequiredMixin, CreateView):
@@ -348,3 +348,31 @@ def toggle_user_status(request, pk):
     user.save()
 
     return redirect('list_users')    
+
+from django.contrib.auth.views import (
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView,
+)
+
+class CustomPasswordResetView(PasswordResetView):
+    template_name = 'registration/password_reset_form_CUSTOM.html'
+    email_template_name = 'registration/password_reset_email_CUSTOM.html'
+    subject_template_name = 'registration/password_reset_subject_CUSTOM.txt'
+    form_class = CustomPasswordResetForm
+    success_url = reverse_lazy('password_reset_done')
+
+
+class CustomPasswordResetDoneView(PasswordResetDoneView):
+    template_name = 'registration/password_reset_done_CUSTOM.html'
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'registration/password_reset_confirm_CUSTOM.html'
+    form_class = CustomSetPasswordForm
+    success_url = reverse_lazy('password_reset_complete')
+
+
+class CustomPasswordResetCompleteView(PasswordResetCompleteView):
+    template_name = 'registration/password_reset_complete_CUSTOM.html'
