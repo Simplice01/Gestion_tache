@@ -30,7 +30,7 @@
     <title>My Task</title>
   </head>
   <body>
-        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: rgb(19, 10, 121);">
+        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: rgb(19, 10, 121); border-bottom: 1px solid grey">
         <a class="navbar-brand" href="{% url 'home' %}" style="color: rgba(245, 245, 245, 0.934); font-weight: bold; font-size: 30px;"><i class="bi bi-check-circle"></i> My Task</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -53,14 +53,17 @@
             <ul class="navbar-nav ">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" id="userDropdown" aria-expanded="false" style="color: white;">
-                        <i class="bi bi-person"></i>
+                        {% if user.is_authenticated %}
+                            {{ user.username }} <i class="bi bi-person"></i> 
+                        {% else %}
+                            <i class="bi bi-person"></i>
+                        {% endif %}
                     </a> 
                     
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                         {% if user.is_authenticated %}
                             <li><a class="dropdown-item" href="{% url 'logout' %}">Se déconnecter</a></li>
                         {% else %}
-                            <li><a class="dropdown-item" href="{% url 'register' %}">S'inscrire</a></li>
                             <li><a class="dropdown-item" href="{% url 'login' %}">Se connecter</a></li>
                         {% endif %}
                     </ul>
