@@ -57,3 +57,5 @@ gulpfile.tmp.*
 /html-starter
 /html-demo
 /html-starter-demo
+
+db.sqlite3
