@@ -52,7 +52,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'gestion_de_tache.urls'
-
+STATIC_URL = '/static/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
