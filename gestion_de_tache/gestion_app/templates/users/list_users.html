@@ -94,6 +94,57 @@
                     </tbody>
                   </table>
                 </div>
+                
+                <!-- Pagination -->
+                {% if is_paginated %}
+                <nav aria-label="Page navigation" class="d-flex justify-content-center mb-4">
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page=1"><i class="tf-icon bx bx-chevrons-left"></i></a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}"><i class="tf-icon bx bx-chevron-left"></i></a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <span class="page-link"><i class="tf-icon bx bx-chevrons-left"></i></span>
+                      </li>
+                      <li class="page-item disabled">
+                        <span class="page-link"><i class="tf-icon bx bx-chevron-left"></i></span>
+                      </li>
+                    {% endif %}
+                    
+                    {% for num in page_obj.paginator.page_range %}
+                      {% if page_obj.number == num %}
+                        <li class="page-item active">
+                          <span class="page-link">{{ num }}</span>
+                        </li>
+                      {% else %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"><i class="tf-icon bx bx-chevron-right"></i></a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"><i class="tf-icon bx bx-chevrons-right"></i></a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <span class="page-link"><i class="tf-icon bx bx-chevron-right"></i></span>
+                      </li>
+                      <li class="page-item disabled">
+                        <span class="page-link"><i class="tf-icon bx bx-chevrons-right"></i></span>
+                      </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+                {% endif %}
               </div>
              </div> 
 
