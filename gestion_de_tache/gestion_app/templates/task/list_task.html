@@ -26,7 +26,6 @@
                     <thead>
                       <tr>
                         <th>Titre</th>
-                        <th>Description</th>
                         <th>Status</th>
                         <th>Assigné à</th>
                         <th>Actions</th>
@@ -36,7 +35,6 @@
                        {% for task in tasks %}
                     <tr>
                         <td>{{ task.title }}</td>
-                        <td>{{ task.description }}</td>
                         <td>
                         {% if task.status == 'todo' %}
                             <span class="badge bg-secondary text-white">À faire</span>
