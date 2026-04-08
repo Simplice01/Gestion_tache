@@ -10,16 +10,19 @@
 >
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-    <title>{% block title %}My Task Manager{% endblock %}</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <title>{% block title %}Gestion de tâche{% endblock %}</title>
 
-    <meta name="description" content="" />
-
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon/favicon.ico' %}" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
     <link rel="stylesheet" href="{% static 'assets/vendor/fonts/boxicons.css' %}" />
     <link rel="stylesheet" href="{% static 'assets/vendor/css/core.css' %}" class="template-customizer-core-css" />
@@ -27,10 +30,6 @@
     <link rel="stylesheet" href="{% static 'assets/css/demo.css' %}" />
     <link rel="stylesheet" href="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
 
-    <!-- Page CSS -->
-    <link rel="stylesheet" href="{% static 'assets/vendor/css/pages/page-auth.css' %}" />
-    <!-- Icones bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     {% if not user.is_authenticated %}
       <link rel="stylesheet" href="{% static 'assets/vendor/css/pages/page-auth.css' %}" />
     {% endif %}
@@ -38,17 +37,50 @@
     <script src="{% static 'assets/vendor/js/helpers.js' %}"></script>
     <script src="{% static 'assets/js/config.js' %}"></script>
 
+    <style>
+      .public-navbar {
+        border-bottom: 1px solid #eef0f4;
+      }
+
+      .public-navbar .navbar-brand {
+        font-size: 18px;
+        color: #1f2937;
+      }
+
+      .public-navbar .nav-link {
+        color: #6b7280;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .public-navbar .nav-link:hover {
+        color: #696cff;
+      }
+
+      .public-btn-primary {
+        background-color: #696cff;
+        border-color: #696cff;
+      }
+
+      .public-btn-primary:hover {
+        background-color: #5f61e6;
+        border-color: #5f61e6;
+      }
+
+      .public-page-wrapper {
+        padding-top: 1.5rem;
+      }
+    </style>
 
     {% block extra_css %}{% endblock %}
   </head>
 
   <body>
-    
-  
     {% if user.is_authenticated %}
       <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
 
+          <!-- SIDEBAR -->
           <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
             <div class="app-brand demo">
               <a href="{% url 'dashboard' %}" class="app-brand-link">
@@ -57,12 +89,16 @@
                 </span>
                 <span class="app-brand-text demo menu-text fw-bolder ms-2">Gestion</span>
               </a>
+
+              <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+                <i class="bx bx-chevron-left bx-sm align-middle"></i>
+              </a>
             </div>
 
             <div class="menu-inner-shadow"></div>
 
             <ul class="menu-inner py-1">
-              <li class="menu-item">
+              <li class="menu-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
                 <a href="{% url 'dashboard' %}" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-home-circle"></i>
                   <div>Dashboard</div>
@@ -73,21 +109,21 @@
                 <span class="menu-header-text">Pages</span>
               </li>
 
-              <li class="menu-item">
+              <li class="menu-item {% if request.resolver_match.url_name == 'list_task' %}active{% endif %}">
                 <a href="{% url 'list_task' %}" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-briefcase-alt-2"></i>
                   <div>Tâches</div>
                 </a>
               </li>
 
-              <li class="menu-item">
+              <li class="menu-item {% if request.resolver_match.url_name == 'list_role' %}active{% endif %}">
                 <a href="{% url 'list_role' %}" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-check-shield"></i>
                   <div>Rôles</div>
                 </a>
               </li>
 
-              <li class="menu-item">
+              <li class="menu-item {% if request.resolver_match.url_name == 'list_users' %}active{% endif %}">
                 <a href="{% url 'list_users' %}" class="menu-link">
                   <i class="menu-icon tf-icons bx bx-user"></i>
                   <div>Utilisateurs</div>
@@ -95,8 +131,10 @@
               </li>
             </ul>
           </aside>
+          <!-- /SIDEBAR -->
 
           <div class="layout-page">
+            <!-- NAVBAR CONNECTÉ -->
             <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme">
               <div class="navbar-nav-right d-flex align-items-center w-100">
                 <div class="navbar-nav align-items-center">
@@ -113,6 +151,17 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                       <li>
+                        <a class="dropdown-item" href="javascript:void(0);">
+                          <div class="d-flex">
+                            <div class="flex-grow-1">
+                              <span class="fw-semibold d-block">{{ user.username }}</span>
+                              <small class="text-muted">Utilisateur connecté</small>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                      <li><div class="dropdown-divider"></div></li>
+                      <li>
                         <a class="dropdown-item" href="{% url 'logout' %}">
                           <i class="bx bx-power-off me-2"></i>
                           <span class="align-middle">Déconnexion</span>
@@ -123,10 +172,53 @@
                 </ul>
               </div>
             </nav>
+            <!-- /NAVBAR CONNECTÉ -->
 
             <div class="content-wrapper" id="main-content-wrapper">
+
     {% else %}
-      <div class="container-xxl py-4" id="main-content-wrapper">
+
+      <!-- NAVBAR PUBLIC -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3 public-navbar">
+        <div class="container">
+          <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}">
+            <i class="bx bx-task text-primary me-2 fs-4"></i>
+            MyTask
+          </a>
+
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarPublic"
+            aria-controls="navbarPublic"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarPublic">
+            <ul class="navbar-nav me-auto ms-lg-4">
+              <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+                  Accueil
+                </a>
+              </li>
+            </ul>
+
+            <div class="d-flex gap-2 mt-3 mt-lg-0">
+              <a href="{% url 'login' %}" class="btn btn-outline-primary px-3">
+                Se connecter
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <!-- /NAVBAR PUBLIC -->
+
+      <div class="container-xxl py-4 public-page-wrapper" id="main-content-wrapper">
+
     {% endif %}
 
               {% block content %}{% endblock %}
@@ -140,6 +232,26 @@
     {% else %}
       </div>
     {% endif %}
+
+    <footer class="footer-public mt-5">
+  <div class="container py-4">
+
+    <div class="row align-items-center">
+
+      <!-- Left -->
+
+
+      <!-- Right -->
+      <div class="col-md-6 text-center text-md-end">
+        <a href="#" class="footer-link">Accueil</a>
+        <a href="#" class="footer-link">Contact</a>
+        <a href="#" class="footer-link">À propos</a>
+      </div>
+
+    </div>
+
+  </div>
+</footer>
 
     <script src="{% static 'assets/vendor/libs/jquery/jquery.js' %}"></script>
     <script src="{% static 'assets/vendor/libs/popper/popper.js' %}"></script>
