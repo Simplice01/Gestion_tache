@@ -72,18 +72,16 @@
                                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                                 <i class="bx bx-dots-vertical-rounded"></i>
                                 </button>
-                                <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{% url 'edit_profile' user.profile.pk %}"
-                                >Modifier statut</a
-                                >
-                                <a class="dropdown-item" href="{% url 'toggle_user_status' user.pk %}">
+                                <div class="dropdown-menu p-2">
+                                <a class="btn btn-warning btn-sm" href="{% url 'edit_profile' user.profile.pk %}"
+                                ><i class="bi bi-pencil"></i></a>
+                                <a class="btn btn-info btn-sm" href="{% url 'toggle_user_status' user.pk %}">
                                 {% if user.is_active %}
-                                Désactiver
+                                <i class="bi bi-check-circle"></i>
                                 {% else %}
-                                <i class="bi bi-circle"></i>Activer
+                                <i class="bi bi-x-circle"></i>
                                 {% endif %}
-                                </a
-                                >
+                                </a>
                                 </div>
                                 </div>
                                 {% endif %}

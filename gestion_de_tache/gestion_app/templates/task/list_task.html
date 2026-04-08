@@ -4,57 +4,58 @@
 <div class="d-flex" style="min-height: 100vh;">
    <!-- Sidebar -->
     {% include 'dashboard/sidebar.html' %}
-    <div class="container-fluid py-4 px-4" style="flex: 1; background-color: #f8f9fa;">
-        <h2 class="mb-4">Gestion des tâches</h2>
-        <div class="row g-4">
-            
-            <!-- afficher les tâches  -->
-            <div class="col-lg-12">
-                <div class="card shadow-sm">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Liste des tâches</h5>
-                        <i class="fa fa-wave-pulse text-muted"></i>
-                    </div>
-                    <div class="card-body">
-                                {% if user.is_authenticated and user.profile.role %}
-                                    {% for permission in user.profile.role.permissions.all %}
-                                        {% if permission.codename == 'add_task' %}
-                                            <a href="{% url 'form_task' %}" class="btn btn-primary mb-3">
-                                                <small><i class="bi bi-plus"></i></small> Ajouter une tâche
-                                            </a>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endif %}
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
 
-                        
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Titre</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Assigné à</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for task in tasks %}
-                                <tr>
-                                    <td>{{ task.title }}</td>
-                                    <td>{{ task.description }}</td>
-                                    <td>
-                                    {% if task.status == 'todo' %}
-                                        <span class="badge bg-secondary text-white">À faire</span>
-                                    {% elif task.status == 'in_progress' %}
-                                        <span class="badge bg-warning text-dark">En cours</span>
-                                    {% elif task.status == 'done' %}
-                                        <span class="badge bg-success text-white">Terminé</span>
-                                    {% endif %}
-                                    </td>
-                                    <td>{{ task.assigned_to }}</td>
-                                    <td>
-                                        {% if task.status == 'done' %}
-                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <div class="card">
+                <h5 class="card-header">Liste des tâches</h5>
+                
+                <div class="table-responsive text-nowrap m-3">
+                    {% if user.is_authenticated and user.profile.role %}
+                    {% for permission in user.profile.role.permissions.all %}
+                        {% if permission.codename == 'add_task' %}
+                            <a href="{% url 'form_task' %}" class="btn btn-primary mb-3">
+                                <small><i class="bi bi-plus"></i></small> Ajouter une tâche
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Assigné à</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                       {% for task in tasks %}
+                    <tr>
+                        <td>{{ task.title }}</td>
+                        <td>{{ task.description }}</td>
+                        <td>
+                        {% if task.status == 'todo' %}
+                            <span class="badge bg-secondary text-white">À faire</span>
+                        {% elif task.status == 'in_progress' %}
+                            <span class="badge bg-warning text-dark">En cours</span>
+                        {% elif task.status == 'done' %}
+                            <span class="badge bg-success text-white">Terminé</span>
+                        {% endif %}
+                        </td>
+                        <td>{{ task.assigned_to }}</td>
+            
+                        <td>
+                          <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                              <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu p-2">
+                               {% if task.status == 'done' %}
+                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm me-2">
                                                 <i class="bi bi-eye"></i>
                                             </a>
 
@@ -104,20 +105,20 @@
                                             {% endif %}
                                         {% endif %}
                                     {% endif %}
-                                    </td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="4" class="text-center text-muted">Aucune tâche</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">Aucune tâche</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
                 </div>
+              </div>
             </div>
         </div>
-    </div>
-</div>
-
 {% endblock %}
