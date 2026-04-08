@@ -80,7 +80,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 PASSWORD_RESET_TIMEOUT = 3600
 
 
-
+LOGIN_URL = 'login'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 

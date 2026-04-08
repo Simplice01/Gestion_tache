@@ -3,20 +3,17 @@
 {% block content %}
 <div class="d-flex" style="min-height: 100vh;">
 
-    <!-- Sidebar -->
-    {% include 'dashboard/sidebar.html' %}
-
     <!-- Contenu principal -->
     <div class="flex-grow-1 p-4">
 
         <div class="card shadow">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header text-white" style="border-bottom: 3px solid gray;">
                 <h4 class="mb-0">
                     {% if form.instance.pk %} Modifier un rôle {% else %} Créer un rôle {% endif %}
                 </h4>
             </div>
 
-            <div class="card-body">
+            <div class="card-body mt-3">
                 <form method="POST">
                     {% csrf_token %}
 
@@ -25,7 +22,17 @@
                         <div class="col-md-4 border-end">
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Nom du rôle</label>
-                                {{ form.name }}
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="name"
+                                    name="{{ form.name.html_name }}"
+                                    placeholder="Enter your group name"
+                                    autofocus
+                                />
+                            {% if form.name.errors %}
+                                <div class="text-danger">{{ form.name.errors }}</div>
+                            {% endif %}
                             </div>
 
                             <div class="alert alert-info mt-4">
@@ -62,7 +69,7 @@
                             <i class="bi bi-arrow-left"></i> Retour
                         </a>
 
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" class="btn btn-primary">
                             <i class="bi bi-save"></i> Enregistrer
                         </button>
                     </div>
