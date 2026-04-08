@@ -1,75 +1,381 @@
 {% extends 'base.html' %}
 
-{% block content %}
-<div class="d-flex" style="min-height: 100vh;">
-    <!-- Sidebar -->
-    {% include 'dashboard/sidebar.html' %}
- 
-    <div class="container-fluid py-4 px-4" style="flex: 1; background-color: #f8f9fa;">
-        <!-- Header -->
-        <div class="mb-4">
-            <h2 class="fw-bold">Bienvenue, {{ user.username}}</h2>
-        </div>
+{% block title %}Dashboard{% endblock %}
 
-        <div class="row g-4">
-            <div class="col-lg-auto" style="width: 250px; ">
-                <div class="card shadow-sm border-0 mb-4" style="height: 210px;">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Tâches totales</h5>
-                    </div>
-                    <div class="card-body">
-                    <h1 class="display-5">{{ count_tasks_total }}</h1>
-                        <p class="text-muted">Nombre total de tâches </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-auto" style="width: 250px; ">
-                <div class="card shadow-sm border-0 mb-4" style="height: 210px;">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Tâches terminées</h5>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="display-5">{{ count_tasks_done }}</h1>
-                        <p class="text-muted">Nombre de tâches terminées</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-auto" style="width: 250px; ">
-                <div class="card shadow-sm border-0 mb-4" style="height: 210px;">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Tâches en cours</h5>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="display-5">{{ count_tasks_in_progress }}</h1>
-                        <p class="text-muted">Nombre de tâches en cours</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-auto" style="width: 250px; ">
-                <div class="card shadow-sm border-0 mb-4" style="height: 210px;">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0">Tâches à faire</h5>
-                    </div>
-                    <div class="card-body">
-                        <h1 class="display-5">{{ count_tasks_todo }}</h1>
-                        <p class="text-muted">Nombre de tâches à faire</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-auto" style="width: 250px; ">
-                <div class="card shadow-sm border-0 mb-4" style="height: 210px;">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0">Utilisateurs avec tâches</h5>
-                        </div>
-                    <div class="card-body">
-                        <h1 class="display-5">{{ count_active_users }}</h1>
-                        <p class="text-muted">Nombre d'utilisateurs avec des tâches </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+{% block extra_css %}
+<style>
+  .stats-card {
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
+  }
 
+  .stats-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .stats-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+  }
+
+  .chart-card,
+  .table-card,
+  .welcome-card {
+    border: none;
+    border-radius: 18px;
+    box-shadow: 0 0.125rem 0.75rem rgba(0, 0, 0, 0.08);
+  }
+
+  .summary-badge {
+    font-size: 0.85rem;
+    padding: 0.45rem 0.75rem;
+    border-radius: 999px;
+  }
+
+  .dashboard-title {
+    font-weight: 700;
+  }
+
+  .mini-label {
+    font-size: 0.9rem;
+    color: #8592a3;
+  }
+
+  .table thead th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #8592a3;
+    letter-spacing: 0.04em;
+  }
+</style>
 {% endblock %}
 
+{% block content %}
+<div class="container-fluid px-3">
+
+  <!-- Header -->
+ <div class="mb-4 mt-3 d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+  <div>
+    <h5 class="fw-semibold mb-1" style="font-size: 18px;">
+      Bienvenue, {{ user.username }}
+    </h5>
+
+    <p class="text-muted mb-0" style="font-size: 13px;">
+      Voici une vue d’ensemble de votre activité et de l’état global des tâches.
+    </p>
+  </div>
+
+  <div class="mt-2 mt-md-0">
+    <span class="badge bg-label-primary summary-badge" style="font-size: 12px;">
+      Total utilisateurs actifs : {{ count_active_users }}
+    </span>
+  </div>
+</div>
+  <!-- Cards -->
+  <div class="row g-4 mb-4">
+    <div class="col-sm-6 col-xl-3">
+      <div class="card stats-card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <p class="mb-1 mini-label">Tâches totales</p>
+              <h3 class="mb-0">{{ count_tasks_total }}</h3>
+            </div>
+            <div class="stats-icon bg-label-primary">
+              <i class="bx bx-briefcase-alt-2"></i>
+            </div>
+          </div>
+          <small class="text-muted">Volume global des tâches enregistrées</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card stats-card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <p class="mb-1 mini-label">Terminées</p>
+              <h3 class="mb-0">{{ count_tasks_done }}</h3>
+            </div>
+            <div class="stats-icon bg-label-success">
+              <i class="bx bx-check-circle"></i>
+            </div>
+          </div>
+          <small class="text-muted">Tâches clôturées avec succès</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card stats-card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <p class="mb-1 mini-label">En cours</p>
+              <h3 class="mb-0">{{ count_tasks_in_progress }}</h3>
+            </div>
+            <div class="stats-icon bg-label-warning">
+              <i class="bx bx-loader-circle"></i>
+            </div>
+          </div>
+          <small class="text-muted">Tâches actuellement en traitement</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="card stats-card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-start mb-3">
+            <div>
+              <p class="mb-1 mini-label">À faire</p>
+              <h3 class="mb-0">{{ count_tasks_todo }}</h3>
+            </div>
+            <div class="stats-icon bg-label-danger">
+              <i class="bx bx-time-five"></i>
+            </div>
+          </div>
+          <small class="text-muted">Tâches encore non démarrées</small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="row g-4 mb-4">
+    <div class="col-lg-4">
+      <div class="card chart-card h-100">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Répartition des tâches</h5>
+          <canvas id="tasksDoughnutChart" height="260"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card chart-card h-100">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Comparaison par statut</h5>
+          <canvas id="tasksBarChart" height="260"></canvas>
+        </div>
+      </div>
+    </div>
+
+<div class="col-lg-4">
+  <div class="card chart-card h-100">
+    <div class="card-body">
+      <h6 class="mb-2">💡 À retenir</h6>
+
+      <small class="text-muted">
+        Regarde rapidement la part des tâches terminées.  
+        Si elle est faible, concentre-toi sur les tâches en cours ou à faire pour faire avancer le projet.
+      </small>
+    </div>
+  </div>
+</div>
+  </div>
+
+  <!-- Dashboard summary -->
+  <div class="row g-4">
+    <div class="col-lg-7">
+      <div class="card table-card h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title mb-0">Résumé du tableau de bord</h5>
+            <span class="badge bg-label-info">Vue synthétique</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-borderless align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Indicateur</th>
+                  <th>Valeur</th>
+                  <th>Lecture</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Tâches totales</td>
+                  <td><strong>{{ count_tasks_total }}</strong></td>
+                  <td class="text-muted">Ensemble des tâches enregistrées</td>
+                </tr>
+                <tr>
+                  <td>Tâches terminées</td>
+                  <td><strong>{{ count_tasks_done }}</strong></td>
+                  <td class="text-muted">Travail déjà finalisé</td>
+                </tr>
+                <tr>
+                  <td>Tâches en cours</td>
+                  <td><strong>{{ count_tasks_in_progress }}</strong></td>
+                  <td class="text-muted">Travail en exécution</td>
+                </tr>
+                <tr>
+                  <td>Tâches à faire</td>
+                  <td><strong>{{ count_tasks_todo }}</strong></td>
+                  <td class="text-muted">Travail non commencé</td>
+                </tr>
+                <tr>
+                  <td>Utilisateurs avec tâches</td>
+                  <td><strong>{{ count_active_users }}</strong></td>
+                  <td class="text-muted">Utilisateurs réellement impliqués</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="card table-card h-100">
+        <div class="card-body">
+          <h5 class="card-title mb-3">Lecture rapide</h5>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between mb-1">
+              <span>Tâches terminées</span>
+              <span id="donePercentText">0%</span>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div id="doneProgressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between mb-1">
+              <span>Tâches en cours</span>
+              <span id="progressPercentText">0%</span>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div id="progressBar" class="progress-bar bg-warning" role="progressbar" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between mb-1">
+              <span>Tâches à faire</span>
+              <span id="todoPercentText">0%</span>
+            </div>
+            <div class="progress" style="height: 10px;">
+              <div id="todoProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <hr>
+
+          <p class="mb-2">
+            <strong>Total :</strong> {{ count_tasks_total }} tâches
+          </p>
+          <p class="mb-2">
+            <strong>Actifs :</strong> {{ count_active_users }} utilisateurs
+          </p>
+          <p class="mb-0 text-muted">
+            
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const totalTasks = Number("{{ count_tasks_total|default:0 }}");
+  const doneTasks = Number("{{ count_tasks_done|default:0 }}");
+  const inProgressTasks = Number("{{ count_tasks_in_progress|default:0 }}");
+  const todoTasks = Number("{{ count_tasks_todo|default:0 }}");
+
+  const labels = ['Terminées', 'En cours', 'À faire'];
+  const values = [doneTasks, inProgressTasks, todoTasks];
+
+  function percent(value, total) {
+    if (!total || total === 0) return 0;
+    return Math.round((value / total) * 100);
+  }
+
+  const donePercent = percent(doneTasks, totalTasks);
+  const progressPercent = percent(inProgressTasks, totalTasks);
+  const todoPercent = percent(todoTasks, totalTasks);
+
+  document.getElementById('donePercentText').textContent = donePercent + '%';
+  document.getElementById('progressPercentText').textContent = progressPercent + '%';
+  document.getElementById('todoPercentText').textContent = todoPercent + '%';
+
+  document.getElementById('doneProgressBar').style.width = donePercent + '%';
+  document.getElementById('progressBar').style.width = progressPercent + '%';
+  document.getElementById('todoProgressBar').style.width = todoPercent + '%';
+
+  new Chart(document.getElementById('tasksDoughnutChart'), {
+    type: 'doughnut',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values,
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('tasksBarChart'), {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Nombre de tâches',
+        data: values,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0
+          }
+        }
+      }
+    }
+  });
+
+  new Chart(document.getElementById('tasksPolarChart'), {
+    type: 'polarArea',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values,
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
+  });
+</script>
+{% endblock %}

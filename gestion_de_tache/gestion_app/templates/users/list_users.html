@@ -5,99 +5,100 @@
 <div class="d-flex" style="min-height: 100vh;">
    <!-- Sidebar -->
     {% include 'dashboard/sidebar.html' %}
+     <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Liste /</span> Utilisateurs</h4>
+                {% if user.is_authenticated and user.profile.role %}
+                    {% for permission in user.profile.role.permissions.all %}
+                        {% if permission.codename == 'add_user' %}
+                            <a href="{% url 'register' %}" class="btn btn-primary mb-3">
+                                <small><i class="bi bi-plus"></i></small> Ajouter un utilisateur
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                 <div class="card">
+                <h5 class="card-header">Table Basic</h5>
+                <div class="table-responsive text-nowrap">
+                  <table class="table">
 
-            <div class="container-fluid py-4 px-4" style="flex: 1; background-color: #f8f9fa;">
-                <h2 class="mb-4">Gestion des utilisateurs</h2>
-                <div class="row g-4">
-                    
-                    <!-- afficher les tâches  -->
-                    <div class="col-lg-12">
-                        <div class="card shadow-sm">
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">Liste des utilisateurs</h5>
-                                <i class="fa fa-wave-pulse text-muted"></i>
-                            </div>
-                            <div class="card-body">
-                                {% if user.is_authenticated and user.profile.role %}
-                                    {% for permission in user.profile.role.permissions.all %}
-                                        {% if permission.codename == 'add_user' %}
-                                            <a href="{% url 'register' %}" class="btn btn-primary mb-3">
-                                                <small><i class="bi bi-plus"></i></small> Ajouter un utilisateur
-                                            </a>
-                                        {% endif %}
-                                    {% endfor %}
+                    <thead>
+                      <tr>
+                        <th>Nom d'utilisateur</th>
+                        <th>Email</th>
+                        <th>Rôles</th>
+                        <th>Statut</th>
+                        <th>    
+                        {% if user.is_authenticated and user.profile.role %}
+                        {% for permission in user.profile.role.permissions.all %}
+
+                            {% if permission.codename == 'change_user' %}
+                            Actions
+                            {% endif %}
+
+                        {% endfor %}
+                        {% endif %}
+                        </th>
+                                        
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                    {% for user in users %}
+                      <tr>
+                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ user.username }}</strong></td>
+                        <td>{{ user.email }}</td>
+                        <td>
+                          {% if user.profile.role %}
+                            <span class="badge bg-primary">
+                                {{ user.profile.role.name }}
+                            </span>
+                            {% else %}
+                            <span class="text-muted">Aucun rôle</span>
+                          {% endif %}
+                        </td>
+
+                        <td>
+                            {% if user.is_active %}
+                            <span class="badge bg-label-primary me-1">Active</span>
+                            {% else %}
+                            <span class="badge bg-label-secondary me-1">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                             {% if request.user.is_authenticated %}
+                                {% for permission in request.user.profile.role.permissions.all %}
+
+                                {% if permission.codename == 'change_group' %}
+                                <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu p-2">
+                                <a class="btn btn-warning btn-sm" href="{% url 'edit_profile' user.profile.pk %}"
+                                ><i class="bi bi-pencil"></i></a>
+                                <a class="btn btn-info btn-sm" href="{% url 'toggle_user_status' user.pk %}">
+                                {% if user.is_active %}
+                                <i class="bi bi-check-circle"></i>
+                                {% else %}
+                                <i class="bi bi-x-circle"></i>
                                 {% endif %}
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Nom d'utilisateur</th>
-                                            <th>Email</th>
-                                            <th>Rôles</th>
-                                            <th>Statut</th>
-                                            <th>    
-                                                {% if user.is_authenticated and user.profile.role %}
-                                                    {% for permission in user.profile.role.permissions.all %}
-                                                    
-                                                        {% if permission.codename == 'change_user' %}
-                                                          Actions
-                                                        {% endif %}
-
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        {% for user in users %}
-                                        <tr>
-                                            <td>{{ user.username }}</td>
-                                            <td>{{ user.email }}</td>
-                                            <td>
-                                                {% if user.profile.role %}
-                                                <span class="badge bg-primary">
-                                                    {{ user.profile.role.name }}
-                                                </span>
-                                                {% else %}
-                                                <span class="text-muted">Aucun rôle</span>
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if user.is_active %}
-                                                    Actif
-                                                {% else %}
-                                                    Inactif
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {% if request.user.is_authenticated %}
-                                                    {% for permission in request.user.profile.role.permissions.all %}
-                                                        
-                                                        {% if permission.codename == 'change_group' %}
-                                                            <a href="{% url 'edit_profile' user.profile.pk %}" class="btn btn-warning btn-sm">
-                                                                <i class="bi bi-pencil"></i>
-                                                            </a>       
-                                                            <a href="{% url 'toggle_user_status' user.pk %}" class="btn btn-info btn-sm">
-                                                                {% if user.is_active %}
-                                                                    <i class="bi bi-check-circle"></i>
-                                                                {% else %}
-                                                                    <i class="bi bi-circle"></i>
-                                                                {% endif %}
-                                                            </a>           
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                    </div>
+                                </a>
+                                </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                             </td>
+                      </tr>
+                     
+                    {% endfor %}
+                    </tbody>
+                  </table>
                 </div>
-            </div>
-        </div>
-    </div>
+              </div>
+             </div> 
+
 </div>
+
 {% endblock %}
 
 
