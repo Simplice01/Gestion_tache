@@ -11,7 +11,7 @@
                         {% for permission in user.profile.role.permissions.all %}
                         
                             {% if permission.codename == 'add_group' %}
-                                <a href="{% url 'form_role' %}" class="btn btn-primary mb-3">
+                                <a href="{% url 'form_role' %}" class="btn btn-success mb-3">
                                  <small><i class="bi bi-plus"></i></small> Ajouter un rôle
                                 </a>
                             {% endif %}
