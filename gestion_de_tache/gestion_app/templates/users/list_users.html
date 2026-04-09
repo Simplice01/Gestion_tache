@@ -6,7 +6,6 @@
    <!-- Sidebar -->
     {% include 'dashboard/sidebar.html' %}
      <div class="container-xxl flex-grow-1 container-p-y">
-              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Liste /</span> Utilisateurs</h4>
                 {% if user.is_authenticated and user.profile.role %}
                     {% for permission in user.profile.role.permissions.all %}
                         {% if permission.codename == 'add_user' %}
