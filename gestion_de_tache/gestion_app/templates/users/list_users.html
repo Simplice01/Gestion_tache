@@ -1,4 +1,23 @@
 {% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+  .pagination .page-link {
+    color: gray;
+    border-color: #198754;
+  }
+  .pagination .page-link:hover {
+    color: gray;
+    background-color: #e9ecef;
+    border-color: #198754;
+  }
+  .pagination .page-item.active .page-link {
+    background-color: #198754;
+    border-color: #198754;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 
 
@@ -42,7 +61,7 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                     {% for user in users %}
-                      <tr>
+                      <tr class="searchable">
                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ user.username }}</strong></td>
                         <td>{{ user.email }}</td>
                         <td>

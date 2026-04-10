@@ -121,7 +121,7 @@
             <div class="navbar-nav align-items-center">
               <div class="nav-item d-flex align-items-center">
                 <i class="bx bx-search fs-4 lh-0"></i>
-                <input type="text" class="form-control border-0 shadow-none" placeholder="Recherche..." />
+                <input type="text" id="search-input" class="form-control border-0 shadow-none" placeholder="Recherche..." />
               </div>
             </div>
 
@@ -208,6 +208,22 @@
     <script src="{% static 'assets/vendor/js/menu.js' %}"></script>
     <script src="{% static 'assets/js/main.js' %}"></script>
 
-    {% block extra_js %}{% endblock %}
+    {% block extra_js %}
+    <script>
+      $(document).ready(function() {
+        $('#search-input').on('keyup', function() {
+          var value = $(this).val().toLowerCase();
+          $('.searchable').each(function() {
+            var text = $(this).text().toLowerCase();
+            if (text.indexOf(value) > -1) {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          });
+        });
+      });
+    </script>
+    {% endblock %}
   </body>
 </html>

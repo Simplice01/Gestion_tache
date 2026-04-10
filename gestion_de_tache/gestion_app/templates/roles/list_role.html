@@ -1,4 +1,23 @@
 {% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+  .pagination .page-link {
+    color: gray;
+    border-color: #0cea08;
+  }
+  .pagination .page-link:hover {
+    color: gray;
+    background-color: #e9ecef;
+    border-color: #0cea08;
+  }
+  .pagination .page-item.active .page-link {
+    background-color: #0cea08;
+    border-color: #0cea08;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 
 <div class="d-flex" style="min-height: 100vh;">
@@ -32,7 +51,7 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                     {% for role in roles %}
-                    <tr>
+                    <tr class="searchable">
                         <!-- Nom du rôle -->
                         <td>{{ role.name }}</td>
 

@@ -1,5 +1,23 @@
 {% extends 'base.html' %}
 
+{% block extra_css %}
+<style>
+  .pagination .page-link {
+    color: #198754;
+    border-color: #198754;
+  }
+  .pagination .page-link:hover {
+    color: #198754;
+    background-color: #e9ecef;
+    border-color: #198754;
+  }
+  .pagination .page-item.active .page-link {
+    background-color: #198754;
+    border-color: #198754;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="d-flex" style="min-height: 100vh;">
    <!-- Sidebar -->
@@ -31,7 +49,7 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                        {% for task in tasks %}
-                    <tr>
+                    <tr class="searchable">
                         <td>{{ task.title }}</td>
                         <td>
                         {% if task.status == 'todo' %}
