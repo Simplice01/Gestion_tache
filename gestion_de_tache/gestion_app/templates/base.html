@@ -1,83 +1,229 @@
-<!doctype html>
-<html lang="en">
+{% load static %}
+<!DOCTYPE html>
+<html
+  lang="fr"
+  class="{% if user.is_authenticated %}light-style layout-menu-fixed{% else %}light-style customizer-hide{% endif %}"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="{% static 'assets/' %}"
+  data-template="vertical-menu-template-free"
+>
   <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <title>{% block title %}Gestion de tâche{% endblock %}</title>
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-        <style>
-            body{
-                    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-                    padding: 0;
-                    margin: 0;
-                }
+    <!-- <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon/favicon.ico' %}" /> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-            .navbar .dropdown-menu {
-                right: 0 !important;
-                left: auto !important;
-                transform: translateX(0) !important;
-                min-width: 180px;
-                }
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/boxicons.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/css/core.css' %}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/css/theme-default.css' %}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{% static 'assets/css/demo.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    {% if not user.is_authenticated %}
+      <link rel="stylesheet" href="{% static 'assets/vendor/css/pages/page-auth.css' %}" />
+    {% endif %}
 
-            .navbar .dropdown {
-                position: relative;
-                }
-        </style>
+    <script src="{% static 'assets/vendor/js/helpers.js' %}"></script>
+    <script src="{% static 'assets/js/config.js' %}"></script>
 
-    <title>My Task</title>
+    <style>
+      .public-navbar {
+        border-bottom: 1px solid #eef0f4;
+      }
+
+      .public-navbar .navbar-brand {
+        font-size: 18px;
+        color: #1f2937;
+      }
+
+      .public-navbar .nav-link {
+        color: #6b7280;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .public-navbar .nav-link:hover {
+        color: #696cff;
+      }
+
+      .public-btn-primary {
+        background-color: #696cff;
+        border-color: #696cff;
+      }
+
+      .public-btn-primary:hover {
+        background-color: #5f61e6;
+        border-color: #5f61e6;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: #0cea08 !important;
+        outline: none !important;
+      }
+
+      .layout-menu .menu-item.active > .menu-link,
+      .layout-menu .menu-item.active .menu-link,
+      .layout-menu .menu-link:focus,
+      .layout-menu .menu-link:hover {
+        background-color: #0cea08 !important;
+        color: #fff !important;
+      }
+
+      .layout-menu .menu-item.active > .menu-link .menu-icon,
+      .layout-menu .menu-item.active .menu-link .menu-icon,
+      .layout-menu .menu-link:focus .menu-icon,
+      .layout-menu .menu-link:hover .menu-icon {
+        color: #acacac !important;
+      }
+
+      .layout-menu .menu-item.active > .menu-link .menu-text,
+      .layout-menu .menu-item.active .menu-link .menu-text {
+        color: #fff !important;
+      }
+
+      :checked {
+        background-color: #0cea08 !important;
+        border-color: #0cea08 !important;
+      }
+
+      .public-page-wrapper {
+        padding-top: 1.5rem;
+      }
+    </style>
+
+    {% block extra_css %}{% endblock %}
   </head>
+
   <body>
-        <nav class="navbar navbar-expand-lg navbar-light " style="background-color: rgb(19, 10, 121); border-bottom: 1px solid grey">
-        <a class="navbar-brand" href="{% url 'home' %}" style="color: rgba(245, 245, 245, 0.934); font-weight: bold; font-size: 30px;"><i class="bi bi-check-circle"></i> My Task</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav ml-auto">
-                {% if user.is_authenticated %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'home' %}" style="color: white;">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'dashboard' %}" style="color: white;">Dashboard</a>
-                </li>
-                {% else %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url 'home' %}" style="color: white;">Home <span class="sr-only">(current)</span></a>
-                </li>
-                {% endif %}
+  {% if user.is_authenticated and request.resolver_match.url_name != 'home' %}
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <div class="layout-page">
+
+        <!-- NAVBAR CONNECTÉ -->
+        <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme">
+          <div class="navbar-nav-right d-flex align-items-center w-100">
+
+            <!-- Recherche -->
+            <div class="navbar-nav align-items-center">
+              <div class="nav-item d-flex align-items-center">
+                <i class="bx bx-search fs-4 lh-0"></i>
+                <input type="text" id="search-input" class="form-control border-0 shadow-none" placeholder="Recherche..." />
+              </div>
+            </div>
+
+            <!-- User -->
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+              <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
+                  <i class="bx bx-user-circle fs-2 text-dark"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <div class="dropdown-item">
+                      <span class="fw-semibold d-block">{{ user.username }}</span>
+                      <small class="text-muted">Utilisateur connecté</small>
+                    </div>
+                  </li>
+
+                  <li><hr class="dropdown-divider"></li>
+
+                  <li>
+                    <a class="dropdown-item" href="{% url 'logout' %}">
+                      <i class="bx bx-power-off me-2"></i>
+                      Déconnexion
+                    </a>
+                  </li>
+                </ul>
+              </li>
             </ul>
-            <ul class="navbar-nav ">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" id="userDropdown" aria-expanded="false" style="color: white;">
-                        {% if user.is_authenticated %}
-                            <i class="bi bi-person"></i> {{ user.username }} 
-                        {% else %}
-                            <i class="bi bi-person"></i>
-                        {% endif %}
-                    </a> 
-                    
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        {% if user.is_authenticated %}
-                            <li><a class="dropdown-item" href="{% url 'logout' %}">Se déconnecter</a></li>
-                        {% else %}
-                            <li><a class="dropdown-item" href="{% url 'login' %}">Se connecter</a></li>
-                        {% endif %}
-                    </ul>
-                    
-                </li>
-            </ul>
-        </div>
+
+          </div>
         </nav>
-       
 
-    {% block content %}
+        <div class="content-wrapper" id="main-content-wrapper">
 
+{% else %}
+
+  <!-- NAVBAR PUBLIC -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+    <div class="container">
+
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}">
+        <i class="bx bx-task text-success me-2 fs-4"></i>
+        MyTask
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPublic">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarPublic">
+        <ul class="navbar-nav me-auto ms-lg-4">
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+              Accueil
+            </a>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="container-xxl py-4" id="main-content-wrapper">
+
+{% endif %}
+
+  {% block content %}{% endblock %}
+
+{% if user.is_authenticated %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% else %}
+  </div>
+{% endif %}
+
+    <script src="{% static 'assets/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'assets/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'assets/vendor/js/bootstrap.js' %}"></script>
+    <script src="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'assets/vendor/js/menu.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    {% block extra_js %}
+    <script>
+      $(document).ready(function() {
+        $('#search-input').on('keyup', function() {
+          var value = $(this).val().toLowerCase();
+          $('.searchable').each(function() {
+            var text = $(this).text().toLowerCase();
+            if (text.indexOf(value) > -1) {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          });
+        });
+      });
+    </script>
     {% endblock %}
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>

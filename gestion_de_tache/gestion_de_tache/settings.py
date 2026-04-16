@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!b=29#!9-27w#uqq)id+q#%mv9h^yvx0m!m=wh1jw!-587c!^*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['']
 
 
 # Application definition
@@ -52,7 +52,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'gestion_de_tache.urls'
-
+STATIC_URL = '/static/'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -70,10 +70,17 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gestion_de_tache.wsgi.application'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'no-reply@example.com'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'ordynis@gmail.com'
+EMAIL_HOST_PASSWORD = 'orii dojb yxoe giuo'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+PASSWORD_RESET_TIMEOUT = 3600
 
 
+LOGIN_URL = 'login'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
