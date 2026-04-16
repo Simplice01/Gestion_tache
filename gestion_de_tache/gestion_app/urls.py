@@ -51,6 +51,13 @@ urlpatterns = [
     path('user_tasks/', views.ListTaskByUser.as_view(), name='user_task_list'),
     #dashboard
     path('dashboard/', views.DashboardView.as_view(), name='dashboard'),
+    # gestion des projets
+    path('projects/', views.ProjectListView.as_view(), name='list_project'),
+    path('projects/create/', views.ProjectCreateView.as_view(), name='form_project'),
+    path('projects/<int:pk>/', views.ProjectDetailView.as_view(), name='detail_project'),
+    path('projects/<int:pk>/edit/', views.ProjectUpdateView.as_view(), name='edit_project'),
+    path('projects/<int:pk>/delete/', views.ProjectDeleteView.as_view(), name='delete_project'),
+    
 
     # gestion des rôles
     path('roles/', views.RoleListView.as_view(), name='list_role'),
