@@ -5,7 +5,6 @@
 {% block extra_css %}
 <style>
   .hero {
-    /* background: linear-gradient(135deg, #4a485c 0%, #3b49df 100%); */
     color: white;
     padding: 110px 20px 90px;
     border-radius: 0 0 28px 28px;
@@ -79,7 +78,7 @@
 
   .feature-icon {
     font-size: 34px;
-    color: #3b49df;
+    color: #0cea08;
   }
 
   .feature-title {
@@ -104,25 +103,25 @@
   }
 
   .btn-main {
-    background: #1a0dab;
+    background: #0cea08;
     border: none;
     color: white;
   }
 
   .btn-main:hover {
-    background: #0f088a;
+    background: #0cea08;
     color: white;
   }
 
   .btn-soft-light {
     background: white;
-    color: #1a0dab;
+    color: #0cea08;
     border: none;
   }
 
   .btn-soft-light:hover {
     background: #f3f4f6;
-    color: #1a0dab;
+    color: #0cea08;
   }
 
   .mini-stats {
@@ -164,7 +163,7 @@
 {% block content %}
 
 <!-- HERO -->
-<section class="hero text-center bg-primary">
+<section class="hero text-center bg-success">
   <div class="container">
     <div class="hero-badge">
       <i class="bx bx-check-shield"></i>
@@ -283,7 +282,7 @@
           Voir le Dashboard
         </a>
       {% else %}
-        <a href="{% url 'login' %}" class="btn btn-main btn-lg px-4 bg-primary">
+        <a href="{% url 'login' %}" class="btn btn-main btn-lg px-4 bg-success">
           Se connecter
         </a>
       {% endif %}

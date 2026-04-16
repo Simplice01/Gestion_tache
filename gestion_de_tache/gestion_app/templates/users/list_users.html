@@ -1,4 +1,23 @@
 {% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+  .pagination .page-link {
+    color: gray;
+    border-color: #198754;
+  }
+  .pagination .page-link:hover {
+    color: gray;
+    background-color: #e9ecef;
+    border-color: #198754;
+  }
+  .pagination .page-item.active .page-link {
+    background-color: #198754;
+    border-color: #198754;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
 
 
@@ -9,14 +28,14 @@
                 {% if user.is_authenticated and user.profile.role %}
                     {% for permission in user.profile.role.permissions.all %}
                         {% if permission.codename == 'add_user' %}
-                            <a href="{% url 'register' %}" class="btn btn-primary mb-3">
+                            <a href="{% url 'register' %}" class="btn btn-success mb-3">
                                 <small><i class="bi bi-plus"></i></small> Ajouter un utilisateur
                             </a>
                         {% endif %}
                     {% endfor %}
                 {% endif %}
                  <div class="card">
-                <h5 class="card-header">Utilisateurs</h5>
+                <h5 class="card-header">Liste des utilisateurs</h5>
                 <div class="table-responsive text-nowrap">
                   <table class="table">
 
@@ -42,12 +61,12 @@
                     </thead>
                     <tbody class="table-border-bottom-0">
                     {% for user in users %}
-                      <tr>
+                      <tr class="searchable">
                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{ user.username }}</strong></td>
                         <td>{{ user.email }}</td>
                         <td>
                           {% if user.profile.role %}
-                            <span class="badge bg-primary">
+                            <span class="badge bg-success">
                                 {{ user.profile.role.name }}
                             </span>
                             {% else %}
@@ -57,7 +76,7 @@
 
                         <td>
                             {% if user.is_active %}
-                            <span class="badge bg-label-primary me-1">Active</span>
+                            <span class="badge bg-label-success me-1">Active</span>
                             {% else %}
                             <span class="badge bg-label-secondary me-1">Inactive</span>
                             {% endif %}
@@ -93,6 +112,57 @@
                     </tbody>
                   </table>
                 </div>
+                
+                <!-- Pagination -->
+                {% if is_paginated %}
+                <nav aria-label="Page navigation" class="d-flex justify-content-center mb-4">
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page=1"><i class="tf-icon bx bx-chevrons-left"></i></a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}"><i class="tf-icon bx bx-chevron-left"></i></a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <span class="page-link"><i class="tf-icon bx bx-chevrons-left"></i></span>
+                      </li>
+                      <li class="page-item disabled">
+                        <span class="page-link"><i class="tf-icon bx bx-chevron-left"></i></span>
+                      </li>
+                    {% endif %}
+                    
+                    {% for num in page_obj.paginator.page_range %}
+                      {% if page_obj.number == num %}
+                        <li class="page-item active">
+                          <span class="page-link">{{ num }}</span>
+                        </li>
+                      {% else %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"><i class="tf-icon bx bx-chevron-right"></i></a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"><i class="tf-icon bx bx-chevrons-right"></i></a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <span class="page-link"><i class="tf-icon bx bx-chevron-right"></i></span>
+                      </li>
+                      <li class="page-item disabled">
+                        <span class="page-link"><i class="tf-icon bx bx-chevrons-right"></i></span>
+                      </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+                {% endif %}
               </div>
              </div> 
 

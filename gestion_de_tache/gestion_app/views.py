@@ -37,6 +37,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     template_name = 'task/list_task.html'
     context_object_name = 'tasks'
     login_url = 'login'
+    paginate_by = 5
 
     def get_queryset(self):
         return Task.objects.all().order_by('-created_at')
@@ -262,6 +263,7 @@ class RoleListView(LoginRequiredMixin, ListView):
     template_name = 'roles/list_role.html'
     context_object_name = 'roles'
     login_url = 'login'
+    paginate_by = 5
 
     def get_queryset(self):
         return Group.objects.annotate(
@@ -317,6 +319,7 @@ class UserListView(LoginRequiredMixin, ListView):
     template_name = 'users/list_users.html'
     context_object_name = 'users'
     login_url = 'login'
+    paginate_by = 5
 
 # édition du rôle d'un profil
 class ProfileUpdateRoleView(LoginRequiredMixin, UpdateView):

@@ -16,7 +16,7 @@
     />
     <title>{% block title %}Gestion de tâche{% endblock %}</title>
 
-    <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon/favicon.ico' %}" />
+    <!-- <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon/favicon.ico' %}" /> -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -67,6 +67,38 @@
         border-color: #5f61e6;
       }
 
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: #0cea08 !important;
+        outline: none !important;
+      }
+
+      .layout-menu .menu-item.active > .menu-link,
+      .layout-menu .menu-item.active .menu-link,
+      .layout-menu .menu-link:focus,
+      .layout-menu .menu-link:hover {
+        background-color: #0cea08 !important;
+        color: #fff !important;
+      }
+
+      .layout-menu .menu-item.active > .menu-link .menu-icon,
+      .layout-menu .menu-item.active .menu-link .menu-icon,
+      .layout-menu .menu-link:focus .menu-icon,
+      .layout-menu .menu-link:hover .menu-icon {
+        color: #acacac !important;
+      }
+
+      .layout-menu .menu-item.active > .menu-link .menu-text,
+      .layout-menu .menu-item.active .menu-link .menu-text {
+        color: #fff !important;
+      }
+
+      :checked {
+        background-color: #0cea08 !important;
+        border-color: #0cea08 !important;
+      }
+
       .public-page-wrapper {
         padding-top: 1.5rem;
       }
@@ -76,129 +108,98 @@
   </head>
 
   <body>
-    {% if user.is_authenticated %}
-      <div class="layout-wrapper layout-content-navbar">
-        <div class="layout-container">
+  {% if user.is_authenticated and request.resolver_match.url_name != 'home' %}
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <div class="layout-page">
 
-          <div class="layout-page">
-            <!-- NAVBAR CONNECTÉ -->
-            <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme">
-              <div class="navbar-nav-right d-flex align-items-center w-100">
-                <div class="navbar-nav align-items-center">
-                  <div class="nav-item d-flex align-items-center">
-                    <i class="bx bx-search fs-4 lh-0"></i>
-                    <input type="text" class="form-control border-0 shadow-none" placeholder="Recherche..." />
-                  </div>
-                </div>
+        <!-- NAVBAR CONNECTÉ -->
+        <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme">
+          <div class="navbar-nav-right d-flex align-items-center w-100">
 
-                <ul class="navbar-nav flex-row align-items-center ms-auto">
-                  <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                    <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                      <i class="bx bx-user-circle fs-2 text-dark"></i>
+            <!-- Recherche -->
+            <div class="navbar-nav align-items-center">
+              <div class="nav-item d-flex align-items-center">
+                <i class="bx bx-search fs-4 lh-0"></i>
+                <input type="text" id="search-input" class="form-control border-0 shadow-none" placeholder="Recherche..." />
+              </div>
+            </div>
+
+            <!-- User -->
+            <ul class="navbar-nav flex-row align-items-center ms-auto">
+              <li class="nav-item navbar-dropdown dropdown-user dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
+                  <i class="bx bx-user-circle fs-2 text-dark"></i>
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <div class="dropdown-item">
+                      <span class="fw-semibold d-block">{{ user.username }}</span>
+                      <small class="text-muted">Utilisateur connecté</small>
+                    </div>
+                  </li>
+
+                  <li><hr class="dropdown-divider"></li>
+
+                  <li>
+                    <a class="dropdown-item" href="{% url 'logout' %}">
+                      <i class="bx bx-power-off me-2"></i>
+                      Déconnexion
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li>
-                        <a class="dropdown-item" href="javascript:void(0);">
-                          <div class="d-flex">
-                            <div class="flex-grow-1">
-                              <span class="fw-semibold d-block">{{ user.username }}</span>
-                              <small class="text-muted">Utilisateur connecté</small>
-                            </div>
-                          </div>
-                        </a>
-                      </li>
-                      <li><div class="dropdown-divider"></div></li>
-                      <li>
-                        <a class="dropdown-item" href="{% url 'logout' %}">
-                          <i class="bx bx-power-off me-2"></i>
-                          <span class="align-middle">Déconnexion</span>
-                        </a>
-                      </li>
-                    </ul>
                   </li>
                 </ul>
-              </div>
-            </nav>
-            <!-- /NAVBAR CONNECTÉ -->
-
-            <div class="content-wrapper" id="main-content-wrapper">
-
-    {% else %}
-
-      <!-- NAVBAR PUBLIC -->
-      <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3 public-navbar">
-        <div class="container">
-          <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}">
-            <i class="bx bx-task text-primary me-2 fs-4"></i>
-            MyTask
-          </a>
-
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarPublic"
-            aria-controls="navbarPublic"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarPublic">
-            <ul class="navbar-nav me-auto ms-lg-4">
-              <li class="nav-item">
-                <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
-                  Accueil
-                </a>
               </li>
             </ul>
 
-            <div class="d-flex gap-2 mt-3 mt-lg-0">
-              <a href="{% url 'login' %}" class="btn btn-outline-primary px-3">
-                Se connecter
-              </a>
-            </div>
           </div>
-        </div>
-      </nav>
-      <!-- /NAVBAR PUBLIC -->
+        </nav>
 
-      <div class="container-xxl py-4 public-page-wrapper" id="main-content-wrapper">
+        <div class="content-wrapper" id="main-content-wrapper">
 
-    {% endif %}
+{% else %}
 
-              {% block content %}{% endblock %}
+  <!-- NAVBAR PUBLIC -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+    <div class="container">
 
-    {% if user.is_authenticated %}
-            </div>
-          </div>
-        </div>
-        <div class="layout-overlay layout-menu-toggle"></div>
-      </div>
-    {% else %}
-      </div>
-    {% endif %}
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}">
+        <i class="bx bx-task text-success me-2 fs-4"></i>
+        MyTask
+      </a>
 
-    <footer class="footer-public mt-5">
-  <div class="container py-4">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPublic">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="row align-items-center">
+      <div class="collapse navbar-collapse" id="navbarPublic">
+        <ul class="navbar-nav me-auto ms-lg-4">
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+              Accueil
+            </a>
+          </li>
+        </ul>
 
-      <!-- Left -->
-
-
-      <!-- Right -->
-      <div class="col-md-6 text-center text-md-end">
-        <a href="#" class="footer-link">Accueil</a>
-        <a href="#" class="footer-link">Contact</a>
-        <a href="#" class="footer-link">À propos</a>
       </div>
 
     </div>
+  </nav>
 
+  <div class="container-xxl py-4" id="main-content-wrapper">
+
+{% endif %}
+
+  {% block content %}{% endblock %}
+
+{% if user.is_authenticated %}
+        </div>
+      </div>
+    </div>
   </div>
-</footer>
+{% else %}
+  </div>
+{% endif %}
 
     <script src="{% static 'assets/vendor/libs/jquery/jquery.js' %}"></script>
     <script src="{% static 'assets/vendor/libs/popper/popper.js' %}"></script>
@@ -207,6 +208,22 @@
     <script src="{% static 'assets/vendor/js/menu.js' %}"></script>
     <script src="{% static 'assets/js/main.js' %}"></script>
 
-    {% block extra_js %}{% endblock %}
+    {% block extra_js %}
+    <script>
+      $(document).ready(function() {
+        $('#search-input').on('keyup', function() {
+          var value = $(this).val().toLowerCase();
+          $('.searchable').each(function() {
+            var text = $(this).text().toLowerCase();
+            if (text.indexOf(value) > -1) {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          });
+        });
+      });
+    </script>
+    {% endblock %}
   </body>
 </html>
