@@ -35,11 +35,12 @@ class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
     template_name = 'project/list_project.html'
     context_object_name = 'projects'
-    
     paginate_by = 5
 
     def get_queryset(self):
-        return Project.objects.all().order_by('-created_at')
+        return Project.objects.annotate(
+            number_of_tasks=Count('tasks')
+        ).order_by('-created_at')
     
 # detail d'un projet
 class ProjectDetailView(LoginRequiredMixin, DetailView):
