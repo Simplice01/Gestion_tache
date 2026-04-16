@@ -36,7 +36,7 @@ class UpdateStatusProjectView(LoginRequiredMixin, UpdateView):
     template_name = 'project/update_status_project.html'
     fields = ['statut']
     success_url = reverse_lazy('list_project')  
-      
+
 # liste des projets
 class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
@@ -82,7 +82,7 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):  
     model = Project
     template_name = 'project/form_project.html'
-    fields = ['name_project', 'deadline', 'statut']
+    fields = ['name_project', 'deadline']
     success_url = reverse_lazy('list_project')
     
 
