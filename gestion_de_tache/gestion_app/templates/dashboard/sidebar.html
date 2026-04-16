@@ -26,6 +26,13 @@
       <span class="menu-header-text">Pages</span>
     </li>
 
+    <li class="menu-item {% if request.resolver_match.url_name == 'list_users' %}active{% endif %}">
+      <a href="{% url 'list_users' %}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-user"></i>
+        <div>Projets</div>
+      </a>
+    </li>
+
     <li class="menu-item {% if request.resolver_match.url_name == 'list_task' %}active{% endif %}">
       <a href="{% url 'list_task' %}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-briefcase-alt-2"></i>
@@ -46,6 +53,8 @@
         <div>Utilisateurs</div>
       </a>
     </li>
+
+    
   </ul>
 </aside>
 
