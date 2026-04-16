@@ -1,7 +1,25 @@
 from django import forms
-from .models import Profile, Task
+from .models import Profile, Task,Project
 from django.contrib.auth.models import Group, Permission, User
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
+
+
+
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['name_project', 'deadline']
+        widgets = {
+            'name_project': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Nom du projet'
+            }),
+            'deadline': forms.DateInput(attrs={
+                'class': 'form-control',
+                'type': 'date'
+            }),
+        }
+
 
 class TaskForm(forms.ModelForm):
     class Meta:
@@ -31,6 +49,14 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ('username', 'email')        
 
 PERMISSION_TRANSLATIONS = {
+    # PROJECT
+    'add_project': 'Créer un projet',
+    'change_project': 'Modifier un projet',
+    'delete_project': 'Supprimer un projet',
+    'view_project': 'Voir un projet',
+    'change_project_status': 'Changer le statut du projet',
+    'finalize_project': 'Finaliser un projet',
+
     # TASK
     'add_task': 'Créer une tâche',
     'change_task': 'Modifier une tâche',
