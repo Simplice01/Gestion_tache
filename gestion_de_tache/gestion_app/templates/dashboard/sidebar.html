@@ -28,14 +28,14 @@
 
     <li class="menu-item {% if request.resolver_match.url_name == 'list_users' %}active{% endif %}">
       <a href="{% url 'list_users' %}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-user"></i>
+        <i class="menu-icon tf-icons bx bx-briefcase"></i>
         <div>Projets</div>
       </a>
     </li>
 
     <li class="menu-item {% if request.resolver_match.url_name == 'list_task' %}active{% endif %}">
       <a href="{% url 'list_task' %}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-briefcase-alt-2"></i>
+        <i class="menu-icon tf-icons bx bx-task"></i>
         <div>Tâches</div>
       </a>
     </li>
