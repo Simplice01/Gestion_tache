@@ -57,6 +57,7 @@ urlpatterns = [
     path('projects/<int:pk>/', views.ProjectDetailView.as_view(), name='detail_project'),
     path('projects/<int:pk>/edit/', views.ProjectUpdateView.as_view(), name='edit_project'),
     path('projects/<int:pk>/delete/', views.ProjectDeleteView.as_view(), name='delete_project'),
+    path('projects/<int:pk>/update-status/', views.UpdateStatusProjectView.as_view(), name='update_status_project'),
     
 
     # gestion des rôles

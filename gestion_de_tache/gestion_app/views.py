@@ -22,7 +22,7 @@ from django.contrib.auth import views as auth_views
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     template_name = 'project/form_project.html'
-    fields = ['name_project', 'deadline', 'statut']
+    fields = ['name_project', 'deadline']
     success_url = reverse_lazy('list_project')
     
 
@@ -30,6 +30,13 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
     
+# mise à jour du statut d'un projet    
+class UpdateStatusProjectView(LoginRequiredMixin, UpdateView):
+    model = Project
+    template_name = 'project/update_status_project.html'
+    fields = ['statut']
+    success_url = reverse_lazy('list_project')  
+      
 # liste des projets
 class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
