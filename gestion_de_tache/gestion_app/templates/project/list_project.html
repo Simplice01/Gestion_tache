@@ -54,13 +54,13 @@
                     {% for project in projects %}
                     <tr class="searchable">
                         <!-- Nom du projet -->
-                        <td>{{ project.name }}</td>
+                        <td>{{ project.name_project }}</td>
 
                         <!-- Nombre de tâches du projet -->
-                        <td>{{ project.task_count }}</td>
+                        <td>{{ project.number_of_tasks}}</td>
 
                         <!-- Auteur du projet -->
-                        <td>{{ project.author }}</td>
+                        <td>{{ project.created_by }}</td>
 
                         <td>
                           <div class="dropdown">
