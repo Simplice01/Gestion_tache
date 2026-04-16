@@ -1,5 +1,13 @@
-*.sqlite3
+# Base de données
 db.sqlite3
+
+# Fichiers Python compilés
 __pycache__/
 *.pyc
-.env
+
+# Environnement virtuel
+env/
+venv/
+
+# Fichiers locaux
+*.env
