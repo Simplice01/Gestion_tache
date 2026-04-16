@@ -125,6 +125,26 @@
                     <div class="text-danger">{{ form.assigned_to.errors }}</div>
                    {% endif %}
                 </div>
+                <div class="mb-3">
+                  <label for="project" class="form-label">Projet</label>
+                  <select
+                    class="form-control"
+                    id="project"
+                    name="{{ form.project.html_name }}"
+                    placeholder="Choose a project"
+                    autofocus
+                  >
+                    <option value="">Sélectionnez un projet</option>
+                    {% for project in form.project.field.queryset %}
+                      <option value="{{ project.pk }}" {% if form.project.value == project.pk %}selected{% endif %}>
+                        {{ project.name_project }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                  {% if form.project.errors %}
+                    <div class="text-danger">{{ form.project.errors }}</div>
+                   {% endif %}
+                </div>
                 </div>
                 {% if form.non_field_errors %}
                     <div class="col-12">
