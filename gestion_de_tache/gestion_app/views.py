@@ -24,7 +24,7 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     template_name = 'project/form_project.html'
     fields = ['name_project', 'deadline', 'statut']
     success_url = reverse_lazy('list_project')
-    login_url = 'login'
+    
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
@@ -35,7 +35,7 @@ class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
     template_name = 'project/list_project.html'
     context_object_name = 'projects'
-    login_url = 'login'
+    
     paginate_by = 5
 
     def get_queryset(self):
@@ -46,7 +46,7 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
     template_name = 'project/detail_project.html'
     context_object_name = 'project'
-    login_url = 'login'
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -76,7 +76,7 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'project/form_project.html'
     fields = ['name_project', 'deadline', 'statut']
     success_url = reverse_lazy('list_project')
-    login_url = 'login'
+    
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -89,7 +89,7 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
 class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
     template_name = 'project/list_project.html'
-    login_url = 'login'
+    
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -106,7 +106,7 @@ class MyProjectListView(LoginRequiredMixin, ListView):
     model = Project
     template_name = 'project/my_project_list.html'
     context_object_name = 'projects'
-    login_url = 'login'
+    
 
     def get_queryset(self):
         return Project.objects.filter(created_by=self.request.user).order_by('-created_at')
@@ -118,7 +118,7 @@ class CreateTask(LoginRequiredMixin, CreateView):
     template_name = 'task/form_task.html'
     fields = ['title', 'description', 'assigned_to', 'project']
     success_url = reverse_lazy('list_task')
-    login_url = 'login'
+    
 
     def form_valid(self, form):
         form.instance.status = 'todo'
@@ -130,7 +130,7 @@ class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'task/list_task.html'
     context_object_name = 'tasks'
-    login_url = 'login'
+    
     paginate_by = 5
 
     def get_queryset(self):
@@ -141,7 +141,7 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = 'task/detail_task.html'
     context_object_name = 'task'
-    login_url = 'login'
+    
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -162,7 +162,7 @@ class TaskEditView(LoginRequiredMixin, UpdateView):
     template_name = 'task/form_task.html'
     fields = ['title', 'description', 'assigned_to', 'project']
     success_url = reverse_lazy('list_task')
-    login_url = 'login'
+    
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -178,7 +178,7 @@ class TaskStatusUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'task/task_status_form.html'
     fields = ['status']
     success_url = reverse_lazy('list_task')
-    login_url = 'login'
+    
 
     def get_queryset(self):
         return Task.objects.filter(assigned_to=self.request.user)
@@ -188,7 +188,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     template_name = 'task/comment_form.html'
     fields = ['content']
-    login_url = 'login'
+    
 
     def form_valid(self, form):
         task_id = self.kwargs['pk']
@@ -204,7 +204,7 @@ class CommentUpdateView(LoginRequiredMixin, UpdateView):
     model = Comment
     template_name = 'tasks/comment_form.html'
     fields = ['content']
-    login_url = 'login'
+    
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -222,14 +222,14 @@ class DetailComment(LoginRequiredMixin, DetailView):
     model = Comment
     template_name = 'task/comment_detail.html'
     context_object_name = 'comment'
-    login_url = 'login'   
+       
 
 # liste des commentaires d'une tâche
 class ListComment(LoginRequiredMixin, ListView):
     model = Comment
     template_name = 'task/comment_list.html'
     context_object_name = 'comments'
-    login_url = 'login'
+    
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -243,7 +243,7 @@ class ListComment(LoginRequiredMixin, ListView):
 class DeleteComment(LoginRequiredMixin, DeleteView):
     model = Comment
     template_name = 'tasks/detail_task.html'
-    login_url = 'login'
+    
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -261,7 +261,7 @@ class MyTaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'task/my_task_list.html'
     context_object_name = 'tasks'
-    login_url = 'login'
+    
     
     def get_queryset(self):
         return Task.objects.filter(created_by=self.request.user).order_by('-created_at')     
@@ -270,7 +270,7 @@ class MyTaskListView(LoginRequiredMixin, ListView):
 class DeleteTask(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = 'tasks/list_task.html'
-    login_url = 'login'
+    
 
     def get_object(self, queryset=None):
         obj = super().get_object(queryset)
@@ -288,7 +288,7 @@ class ListTaskByUser(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'task/user_task_list.html'
     context_object_name = 'tasks'
-    login_url = 'login'
+    
 
     def get_queryset(self):
         user_id = self.kwargs['user_id']
@@ -297,7 +297,7 @@ class ListTaskByUser(LoginRequiredMixin, ListView):
 # page d'accueil
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard/dashboard.html'
-    login_url = 'login'
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -356,7 +356,7 @@ class RoleListView(LoginRequiredMixin, ListView):
     model = Group
     template_name = 'roles/list_role.html'
     context_object_name = 'roles'
-    login_url = 'login'
+    
     paginate_by = 5
 
     def get_queryset(self):
@@ -369,7 +369,7 @@ class RoleDetailView(LoginRequiredMixin, DetailView):
     model = Group
     template_name = 'roles/detail_role.html'
     context_object_name = 'role'
-    login_url = 'login'
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -392,7 +392,7 @@ class RoleCreateView(LoginRequiredMixin, CreateView):
     form_class = RoleForm
     template_name = 'roles/role_form.html'
     success_url = reverse_lazy('list_role')
-    login_url = 'login'
+    
 
 # édition d'un rôle
 class RoleUpdateView(LoginRequiredMixin, UpdateView):
@@ -400,19 +400,19 @@ class RoleUpdateView(LoginRequiredMixin, UpdateView):
     form_class = RoleForm
     template_name = 'roles/role_form.html'
     success_url = reverse_lazy('list_role')
-    login_url = 'login'
+    
 
 class RoleDeleteView(LoginRequiredMixin, DeleteView):
     model = Group
     template_name = 'roles/role_confirm_delete.html'
     success_url = reverse_lazy('list_role')
-    login_url = 'login'
+    
 # liste des profils
 class UserListView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'users/list_users.html'
     context_object_name = 'users'
-    login_url = 'login'
+    
     paginate_by = 5
 
 # édition du rôle d'un profil
@@ -421,7 +421,7 @@ class ProfileUpdateRoleView(LoginRequiredMixin, UpdateView):
     form_class = ProfileRoleForm
     template_name = 'users/edit_profile.html'
     success_url = reverse_lazy('list_users')
-    login_url = 'login'
+    
 
  # page d'accueil          
 class HomeView(View):
