@@ -20,16 +20,26 @@ class ProjectForm(forms.ModelForm):
             }),
         }
 
+class UpdateStatusProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ['statut']
+        widgets = {
+            'statut': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+        }
 
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['title', 'description', 'assigned_to', 'status']
+        fields = ['title', 'description', 'assigned_to', 'status', 'project']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Titre de la tâche', 'required': True}),
             'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Description de la tâche'}),
             'assigned_to': forms.Select(attrs={'class': 'form-select', 'required': True}),
             'status': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'project': forms.Select(attrs={'class': 'form-select', 'required': True})
         }
 
 
