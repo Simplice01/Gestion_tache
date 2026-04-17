@@ -38,6 +38,72 @@
     <script src="{% static 'assets/js/config.js' %}"></script>
 
     <style>
+      html, body {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+      }
+       
+      section {
+        background-color: #1a1a1a !important;
+        border-radius: 20px;
+      }
+      /* Navbar */
+      .navbar, .app-navbar-top {
+        background-color: #1a1a1a !important;
+        border-bottom: 1px solid #333333 !important;
+      }
+
+      .navbar-brand, .app-brand-text {
+        color: #ffffff !important;
+      }
+
+      /* Sidebar */
+      .layout-menu, .layout-sidenav {
+        background-color: #1a1a1a !important;
+        border-right: 1px solid #333333 !important;
+      }
+
+      .layout-menu .menu-item .menu-link {
+        color: #cccccc !important;
+        
+      }
+
+      /* Tableaux */
+      table, .table {
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
+        border-color: #333333 !important;
+      }
+
+      thead, .table thead {
+        background-color: rgb(2, 213, 255) !important;
+        color: #000000 !important;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid #333333 !important;
+      }
+
+      tbody tr:hover {
+        background-color: #2a2a2a !important;
+      }
+
+      /* Cartes */
+      .card {
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
+        border-color: #333333 !important;
+      }
+
+      .card-body {
+        background-color: #1a1a1a !important;
+      }
+
+      /* Conteneurs */
+      .container, .container-xxl, .container-fluid {
+        background-color: #000000 !important;
+      }
+
       .public-navbar {
         border-bottom: 1px solid #eef0f4;
       }
@@ -67,19 +133,62 @@
         border-color: #5f61e6;
       }
 
+
       input:focus,
       textarea:focus,
       select:focus {
-        border-color: #0cea08 !important;
+        border-color: rgb(2, 213, 255) !important;
         outline: none !important;
+      }
+
+      /* Inputs, Textareas, Selects */
+      input, textarea, select {
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
+        border-color: #333333 !important;
+      }
+
+      input::placeholder, textarea::placeholder {
+        color: #888888 !important;
+      }
+
+      /* Barres de recherche */
+      .form-control, .form-select {
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
+        border-color: #333333 !important;
+      }
+
+      .form-control:focus, .form-select:focus {
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
+        border-color: rgb(2, 213, 255) !important;
+      }
+
+      .input-group .form-control {
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
+        border-color: #333333 !important;
+      }
+
+      /* Options des selects */
+      option {
+        background-color: #1a1a1a !important;
+        color: #ffffff !important;
       }
 
       .layout-menu .menu-item.active > .menu-link,
       .layout-menu .menu-item.active .menu-link,
       .layout-menu .menu-link:focus,
       .layout-menu .menu-link:hover {
-        background-color: #0cea08 !important;
-        color: #fff !important;
+        background-color: rgb(2, 213, 255) !important;
+        color: #000 !important;
+
+      }
+      
+      .menu-item.active .menu-link {
+    background-color: rgb(2, 213, 255) !important;
+    color: white !important;
       }
 
       .layout-menu .menu-item.active > .menu-link .menu-icon,
@@ -92,15 +201,64 @@
       .layout-menu .menu-item.active > .menu-link .menu-text,
       .layout-menu .menu-item.active .menu-link .menu-text {
         color: #fff !important;
+        background-color: rgb(2, 213, 255) !important;
       }
 
       :checked {
-        background-color: #0cea08 !important;
-        border-color: #0cea08 !important;
+        background-color: rgb(2, 213, 255) !important;
+        border-color: rgb(2, 213, 255) !important;
+      }
+
+      /* Boutons */
+      .btn-success {
+        background-color: rgb(2, 213, 255) !important;
+        border-color: rgb(2, 213, 255) !important;
+        color: #000000 !important;
+      }
+
+      .btn-success:hover {
+        background-color: rgb(2, 213, 255) !important;
+        border-color: rgb(2, 213, 255) !important;
+        color: #000000 !important;
+      }
+
+      .btn-success:active, .btn-success.active {
+        background-color: rgb(2, 213, 255) !important;
+        border-color: rgb(2, 213, 255) !important;
+        color: #000000 !important;
       }
 
       .public-page-wrapper {
         padding-top: 1.5rem;
+      }
+
+      .avatar-wrapper {
+    position: relative;
+    width: 40px;
+    height: 40px;
+      }
+
+      .avatar-circle {
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgb(2, 213, 255); /* Bootstrap primary */
+    color: white;
+    border-radius: 50%; /* cercle */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-transform: uppercase;
+      }
+      .status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background-color: #28a745; /* Bootstrap primary */
+    border: 2px solid #1a1a1a; /* même couleur que le fond pour créer un effet de bordure */
+    border-radius: 50%;
       }
     </style>
 
@@ -129,7 +287,12 @@
             <ul class="navbar-nav flex-row align-items-center ms-auto">
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="#" data-bs-toggle="dropdown">
-                  <i class="bx bx-user-circle fs-2 text-dark"></i>
+                  <div class="avatar-wrapper">
+                    <div class="avatar-circle text-primary">
+                    {{ user.username|slice:":2"|upper }}
+                    <span class="status-dot"></span>
+                    </div>
+                  </div>
                 </a>
 
                 <ul class="dropdown-menu dropdown-menu-end">

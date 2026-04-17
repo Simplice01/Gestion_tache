@@ -76,7 +76,7 @@
                 </a>
               </div>
 
-              <form id="formAuthentication" class="mb-3" action="{% url 'form_task' %}" method="POST">
+              <form id="formAuthentication" class="mb-3" action="{% if form.instance.pk %}{% url 'edit_task' pk=form.instance.pk %}{% else %}{% url 'form_task' %}{% endif %}" method="POST">
                 {% csrf_token %}
                 <div class="mb-3">
                   <label for="title" class="form-label">Titre</label>
@@ -86,6 +86,7 @@
                     id="title"
                     name="{{ form.title.html_name }}"
                     placeholder="Enter your title"
+                    value="{{ form.title.value|default:'' }}"
                     autofocus
                   />
                   {% if form.title.errors %}

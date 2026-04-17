@@ -28,6 +28,7 @@
                                     id="name"
                                     name="{{ form.name.html_name }}"
                                     placeholder="Enter your group name"
+                                    value="{{ form.name.value|default:'' }}"
                                     autofocus
                                 />
                             {% if form.name.errors %}
