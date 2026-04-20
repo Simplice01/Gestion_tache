@@ -35,7 +35,7 @@ class UpdateStatusProjectView(LoginRequiredMixin, UpdateView):
     model = Project
     template_name = 'project/update_status_project.html'
     fields = ['statut']
-    success_url = reverse_lazy('list_project')  
+    success_url = reverse_lazy('detail_project')  
 
 # liste des projets
 class ProjectListView(LoginRequiredMixin, ListView):
@@ -54,7 +54,6 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
     template_name = 'project/detail_project.html'
     context_object_name = 'project'
-    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,14 +69,7 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
         context['assigned_users'] = assigned_users
 
         return context
-
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-
-        if obj.created_by != self.request.user:
-            raise PermissionDenied("Vous n'avez pas le droit de voir ce projet.")
-
-        return obj
+    
 # édition d'un projet
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):  
     model = Project
@@ -93,6 +85,7 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
             raise PermissionDenied("Vous n'avez pas le droit de modifier ce projet.")
         
         return obj
+    
 # suppression d'un projet
 class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
@@ -315,6 +308,8 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['count_tasks_in_progress'] = Task.objects.filter(status='in_progress').count()
         context['count_tasks_done'] = Task.objects.filter(status='done').count()
         context['count_active_users'] = User.objects.filter(assigned_tasks__isnull=False).distinct().count()
+        context['count_history_connexions'] = Profile.objects.filter(last_login__isnull=False).count()
+        context['count_projects'] = Project.objects.count()
 
         return context
     
@@ -481,3 +476,11 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'registration/password_reset_complete_CUSTOM.html'
+
+
+class ListhystconnexionView(LoginRequiredMixin, ListView):
+    model = Profile
+    template_name = 'users/historyconnexion.html'
+    context_object_name = 'histories'
+
+        
