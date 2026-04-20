@@ -39,15 +39,14 @@
             <!-- Tâches du projet -->
             {% if tasks %}
             <div class="mt-5">
-                    
-                    <div class="col-md-6 mb-4 shadow   border-left-primary">
+                    <div class="col-sm-4 mb-4 border-left-primary" style="border-left: 4px solid rgb(2, 213, 255) !important;">
                         <h5 class="p-2 mb-3 border-bottom">
                         <strong>Tâches</strong> 
                         <span class="badge bg-info">{{ tasks.count }}</span>
                         </h5>
                     {% for task in tasks %}
                         <div class="card h-100">
-                            <div class="card-header bg-light">
+                            <div class="card-header">
                                 <h6 class="mb-0">{{ task.title }}</h6>
                             </div>
                             <div class="card-body">
@@ -60,7 +59,7 @@
                                     <small><strong>Créée:</strong> {{ task.created_at|date:"d M Y" }}</small>
                                 </p>
                             </div>
-                            <div class="card-footer bg-light">
+                            <div class="card-footer">
                                 <a href="{% url 'detail_task' task.id %}" class="btn btn-sm btn-primary">
                                     Voir détails
                                 </a>

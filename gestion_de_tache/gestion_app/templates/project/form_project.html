@@ -86,6 +86,7 @@
                     id="name_project"
                     name="{{ form.name_project.html_name }}"
                     placeholder="Enter your project name"
+                    value="{{ form.name_project.value|default:'' }}"
                     autofocus
                   />
                   {% if form.name_project.errors %}
@@ -100,6 +101,7 @@
                     id="deadline"
                     name="{{ form.deadline.html_name }}"
                     placeholder="Enter your deadline"
+                    value="{% if form.deadline.value %}{{ form.deadline.value|date:'Y-m-d' }}{% endif %}"
                     autofocus
                   />
                   {% if form.deadline.errors %}
