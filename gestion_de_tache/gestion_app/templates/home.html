@@ -78,7 +78,7 @@
 
   .feature-icon {
     font-size: 34px;
-    color: #0cea08;
+    color: rgb(2, 213, 255);
   }
 
   .feature-title {
@@ -103,25 +103,25 @@
   }
 
   .btn-main {
-    background: #0cea08;
+    background: rgb(2, 213, 255);
     border: none;
     color: white;
   }
 
   .btn-main:hover {
-    background: #0cea08;
+    background: rgb(2, 213, 255);
     color: white;
   }
 
   .btn-soft-light {
     background: white;
-    color: #0cea08;
+    color: rgb(2, 213, 255);
     border: none;
   }
 
   .btn-soft-light:hover {
     background: #f3f4f6;
-    color: #0cea08;
+    color: rgb(2, 213, 255);
   }
 
   .mini-stats {
@@ -163,7 +163,7 @@
 {% block content %}
 
 <!-- HERO -->
-<section class="hero text-center bg-success">
+<section class="hero text-center">
   <div class="container">
     <div class="hero-badge">
       <i class="bx bx-check-shield"></i>
@@ -268,26 +268,5 @@
   </div>
 </section>
 
-<!-- CTA -->
-<section class="container pb-5">
-  <div class="cta text-center">
-    <div class="container">
-      <h2 class="fw-bold mb-3">Commencez à mieux gérer votre travail dès aujourd’hui</h2>
-      <p class="text-muted mb-4">
-        Une meilleure organisation ne demande pas plus d’effort, elle demande un système plus clair.
-      </p>
-
-      {% if user.is_authenticated %}
-        <a href="{% url 'dashboard' %}" class="btn btn-main btn-lg px-4">
-          Voir le Dashboard
-        </a>
-      {% else %}
-        <a href="{% url 'login' %}" class="btn btn-main btn-lg px-4 bg-success">
-          Se connecter
-        </a>
-      {% endif %}
-    </div>
-  </div>
-</section>
 
 {% endblock %}

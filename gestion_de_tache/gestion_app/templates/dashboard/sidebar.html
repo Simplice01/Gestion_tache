@@ -2,7 +2,7 @@
   <div class="app-brand demo">
     <a href="{% url 'home' %}" class="app-brand-link">
       <span class="app-brand-logo demo">
-        <i class="bx bx-layer text-success fs-2"></i>
+        <i class="bx bx-layer text-primary fs-2"></i>
       </span>
       <span class="app-brand-text demo menu-text fw-bolder ms-2">Gestion</span>
     </a>
@@ -26,8 +26,8 @@
       <span class="menu-header-text">Pages</span>
     </li>
 
-    <li class="menu-item {% if request.resolver_match.url_name == 'list_users' %}active{% endif %}">
-      <a href="{% url 'list_users' %}" class="menu-link">
+    <li class="menu-item {% if request.resolver_match.url_name == 'list_project' %}active{% endif %}">
+      <a href="{% url 'list_project' %}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-briefcase"></i>
         <div>Projets</div>
       </a>

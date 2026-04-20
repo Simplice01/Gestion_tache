@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+  .pagination .page-link {
+    color: gray;
+    border-color: #0cea08;
+  }
+  .pagination .page-link:hover {
+    color: gray;
+    background-color: #e9ecef;
+    border-color: #0cea08;
+  }
+  .pagination .page-item.active .page-link {
+    background-color: #0cea08;
+    border-color: #0cea08;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex" style="min-height: 100vh;">
+   <!-- Sidebar -->
+    {% include 'dashboard/sidebar.html' %}
+   
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Liste /</span> Projets</h4>
+                    {% if user.is_authenticated and user.profile.role %}
+                        {% for permission in user.profile.role.permissions.all %}
+                        
+                            {% if permission.codename == 'add_group' %}
+                                <a href="{% url 'form_project' %}" class="btn btn-success mb-3">
+                                 <small><i class="bi bi-plus"></i></small> Ajouter un projet
+                                </a>
+                            {% endif %}
+
+                        {% endfor %}
+                    {% endif %}
+              <div class="card">
+                <h5 class="card-header">Liste des projets</h5>
+                
+                <div class="table-responsive text-nowrap m-3">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Nom du projet</th>
+                        <th>Nombre de tâches</th>
+                        <th>Auteur</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                    {% for project in projects %}
+                    <tr class="searchable">
+                        <!-- Nom du projet -->
+                        <td>{{ project.name_project }}</td>
+
+                        <!-- Nombre de tâches du projet -->
+                        <td>{{ project.number_of_tasks}}</td>
+
+                        <!-- Auteur du projet -->
+                        <td>{{ project.created_by }}</td>
+
+                        <td>
+                          <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                              <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu p-2">
+                            {% if user.is_authenticated and user.profile.role %}
+                                        {% for permission in user.profile.role.permissions.all %}
+                                        
+                                            {% if permission.codename == 'view_task' %}
+                                                <a href="{% url 'detail_project' project.id %}" class="btn btn-info btn-sm">
+                                                    <i class="bi bi-eye"></i>
+                                                </a>
+                                            {% endif %}
+
+                                            {% if permission.codename == 'change_task' %}
+                                                <a href="{% url 'edit_project' project.id %}" class="btn btn-warning btn-sm me-1">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                            {% endif %}
+
+                                            {% if permission.codename == 'delete_task' %}
+                                                <form action="{% url 'delete_project' project.id %}" method="post" style="display:inline;">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                            onclick="return confirm('Voulez-vous vraiment supprimer ce projet ?');">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </form>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">Aucune tâche</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                
+                <!-- Pagination -->
+                {% if is_paginated %}
+                <nav aria-label="Page navigation" class="d-flex justify-content-center mb-4">
+                  <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page=1"><i class="tf-icon bx bx-chevrons-left"></i></a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}"><i class="tf-icon bx bx-chevron-left"></i></a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <span class="page-link"><i class="tf-icon bx bx-chevrons-left"></i></span>
+                      </li>
+                      <li class="page-item disabled">
+                        <span class="page-link"><i class="tf-icon bx bx-chevron-left"></i></span>
+                      </li>
+                    {% endif %}
+                    
+                    {% for num in page_obj.paginator.page_range %}
+                      {% if page_obj.number == num %}
+                        <li class="page-item active">
+                          <span class="page-link">{{ num }}</span>
+                        </li>
+                      {% else %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                    
+                    {% if page_obj.has_next %}
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"><i class="tf-icon bx bx-chevron-right"></i
+                              ></a>
+                      </li>
+                      <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"> <i class="tf-icon bx bx-chevrons-right"></i></a>
+                      </li>
+                    {% else %}
+                      <li class="page-item disabled">
+                        <span class="page-link"></span>
+                      </li>
+                      <li class="page-item disabled">
+                        <span class="page-link"> <i class="tf-icon bx bx-chevrons-right"></i></span>
+                      </li>
+                    {% endif %}
+                  </ul>
+                </nav>
+                {% endif %}
+              </div>
+            </div>
+ 
+{% endblock %}

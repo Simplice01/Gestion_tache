@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex" style="min-height: 100vh;">
+   <!-- Sidebar -->
+    {% include 'dashboard/sidebar.html' %}
+<div class="container mt-5">
+
+    <!-- Carte principale -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+    
+            <!-- Titre -->
+            <h4 class="mb-0">Détail du projet</h4>
+
+            <!-- Statut -->
+            {% if object.statut == 'debut' %}
+                <span class="badge bg-secondary">Début</span>
+
+            {% elif object.statut == 'en_cours' %}
+                <span class="badge bg-warning text-dark">En cours</span>
+
+            {% elif object.statut == 'termine' %}
+                <span class="badge bg-success">Terminé</span>
+
+            {% elif object.statut == 'finalise' %}
+                <span class="badge bg-primary">Finalisé</span>
+
+            {% endif %}
+
+        </div>
+
+        <div class="card-body p-4">
+
+            <!-- Titre -->
+            <h3 class="title mb-3 mt-4 p-3">{{ object.name_project }}</h3>
+            
+            <!-- Infos -->
+            <div class="mt-3 text-muted">
+                <p><strong>Créé par :</strong> {{ object.created_by }} le {{ object.created_at|date:"d M Y à H:i" }}</p>
+                <p><strong>Délai :</strong> {{ object.deadline|date:"d M Y" }}</p>
+            </div>
+        </div>
+    </div>
+            <!-- Tâches du projet -->
+            <div class="card mb-4">
+                {% if tasks %}
+                <div class="mt-5">
+                <div class="mb-4 border-left-primary" style="border-left: 4px solid rgb(2, 213, 255);">
+                    <h5 class="p-2 mb-3 border-bottom">
+                        <strong>Tâches</strong> 
+                        <span class="badge bg-info">{{ tasks.count }}</span>
+                    </h5>
+
+                    <!-- GRID -->
+                    <div class="row">
+                        {% for task in tasks %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                
+                                <div class="card-header bg-dark text-white">
+                                    <h6 class="mb-0">{{ task.title }}</h6>
+                                </div>
+
+                                <div class="card-body">
+                                    {% if task.assigned_to %}
+                                    <p class="text-muted mb-2">
+                                        <small><strong>Assignée à :</strong> {{ task.assigned_to }}</small>
+                                    </p>
+                                    {% endif %}
+
+                                    <p class="text-muted">
+                                        <small><strong>Créée :</strong> {{ task.created_at|date:"d M Y" }}</small>
+                                    </p>
+                                </div>
+
+                                <div class="card-footer text-end">
+                                    <a href="{% url 'detail_task' task.id %}" class="btn btn-sm btn-primary">
+                                        Voir détails
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+            </div>
+            {% else %}
+            <div class="alert alert-info mt-5">
+                <strong>Aucune tâche</strong> - Ce projet n'a pas encore de tâches.
+            </div>
+            {% endif %}
+
+            <!-- Boutons -->
+            <div class="mt-4 d-flex gap-2 p-3 border-top">
+                        <a href="{% url 'list_project' %}" class="btn btn-secondary">Retour</a>
+                        <a href="{% url 'update_status_project' object.id %}" class="btn btn-success">Mettre à jour le statut</a>
+
+        </div>
+</div>
+</div>
+ 
+
+{% endblock %}
+
+
+
+
+
+    
+                

@@ -6,16 +6,17 @@
     {% include 'dashboard/sidebar.html' %}
 <div class="container mt-5">
 
+    <div class="row mb-5 shadow">
     <!-- Carte principale -->
-    <div class="card shadow">
-        <div class="card-header bg-dark text-white">
+    <div class=" col-lg-8 card">
+        <div class="card-header">
             <h4>Détail de la tâche</h4>
         </div>
 
-        <div class="card-body">
+        <div class="card-body ">
 
             <!-- Titre -->
-            <h3 class="mb-3">{{ object.title }}</h3>
+            <h3 class=" mt-3 mb-3">{{ object.title }}</h3>
 
             <!-- Statut -->
             <p>
@@ -31,7 +32,7 @@
 
             <!-- Description -->
             <p><strong>Description :</strong></p>
-            <div class="border p-3 rounded bg-light">
+            <div class="border p-3 rounded bg-dark text-white">
                 {{ object.description }}
             </div>
 
@@ -65,16 +66,16 @@
     </div>
 
     <!-- Commentaires -->
-    <div class="card shadow mt-4">
-        <div class="card-header bg-success text-white">
-            <h5>Commentaires</h5>
+    <div class="col-lg-4 card">
+        <div class="card-header">
+            <h4>Commentaires</h4>
         </div>
 
         <div class="card-body">
 
             {% if object.comments.all %}
                 {% for comment in object.comments.all %}
-                    <div class="mb-3 border-bottom pb-2">
+                    <div class="mb-3 border-bottom p-2">
                         <p>{{ comment.content }}</p>
                         <small class="text-muted">
                             Par {{ comment.author }} • {{ comment.created_at|date:"d M Y H:i" }}
@@ -94,11 +95,11 @@
 
         </div>
     </div>
-
+</div>
     <!-- Ajouter un commentaire -->
     <div class="card shadow mt-4">
-        <div class="card-header bg-success text-white">
-            <h5>Ajouter un commentaire</h5>
+        <div class="card-header">
+            <h4>Ajouter un commentaire</h4>
         </div>
 
         <div class="card-body">

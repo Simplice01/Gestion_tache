@@ -76,7 +76,7 @@
                 </a>
               </div>
 
-              <form id="formAuthentication" class="mb-3" action="{% url 'form_task' %}" method="POST">
+              <form id="formAuthentication" class="mb-3" action="{% if form.instance.pk %}{% url 'edit_task' pk=form.instance.pk %}{% else %}{% url 'form_task' %}{% endif %}" method="POST">
                 {% csrf_token %}
                 <div class="mb-3">
                   <label for="title" class="form-label">Titre</label>
@@ -86,6 +86,7 @@
                     id="title"
                     name="{{ form.title.html_name }}"
                     placeholder="Enter your title"
+                    value="{{ form.title.value|default:'' }}"
                     autofocus
                   />
                   {% if form.title.errors %}
@@ -123,6 +124,26 @@
                   </select>
                   {% if form.assigned_to.errors %}
                     <div class="text-danger">{{ form.assigned_to.errors }}</div>
+                   {% endif %}
+                </div>
+                <div class="mb-3">
+                  <label for="project" class="form-label">Projet</label>
+                  <select
+                    class="form-control"
+                    id="project"
+                    name="{{ form.project.html_name }}"
+                    placeholder="Choose a project"
+                    autofocus
+                  >
+                    <option value="">Sélectionnez un projet</option>
+                    {% for project in form.project.field.queryset %}
+                      <option value="{{ project.pk }}" {% if form.project.value == project.pk %}selected{% endif %}>
+                        {{ project.name_project }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                  {% if form.project.errors %}
+                    <div class="text-danger">{{ form.project.errors }}</div>
                    {% endif %}
                 </div>
                 </div>
