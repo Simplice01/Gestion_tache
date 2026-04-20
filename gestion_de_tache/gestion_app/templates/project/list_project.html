@@ -71,19 +71,19 @@
                             {% if user.is_authenticated and user.profile.role %}
                                         {% for permission in user.profile.role.permissions.all %}
                                         
-                                            {% if permission.codename == 'view_group' %}
+                                            {% if permission.codename == 'view_task' %}
                                                 <a href="{% url 'detail_project' project.id %}" class="btn btn-info btn-sm">
                                                     <i class="bi bi-eye"></i>
                                                 </a>
                                             {% endif %}
 
-                                            {% if permission.codename == 'change_group' %}
+                                            {% if permission.codename == 'change_task' %}
                                                 <a href="{% url 'edit_project' project.id %}" class="btn btn-warning btn-sm me-1">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
                                             {% endif %}
 
-                                            {% if permission.codename == 'delete_group' %}
+                                            {% if permission.codename == 'delete_task' %}
                                                 <form action="{% url 'delete_project' project.id %}" method="post" style="display:inline;">
                                                     {% csrf_token %}
                                                     <button type="submit" class="btn btn-danger btn-sm"

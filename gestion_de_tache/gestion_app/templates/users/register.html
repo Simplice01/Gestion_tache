@@ -74,6 +74,7 @@
               </div>
 
               <form id="formAuthentication" class="mb-3" action="{% url 'register' %}" method="POST">
+                {% csrf_token %}
                 <div class="mb-3">
                   <label for="username" class="form-label">Nom d'utilisateur</label>
                   <input
