@@ -75,7 +75,7 @@
 
             {% if object.comments.all %}
                 {% for comment in object.comments.all %}
-                    <div class="mb-3 border-bottom pb-2">
+                    <div class="mb-3 border-bottom p-2">
                         <p>{{ comment.content }}</p>
                         <small class="text-muted">
                             Par {{ comment.author }} • {{ comment.created_at|date:"d M Y H:i" }}
