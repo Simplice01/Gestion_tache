@@ -35,7 +35,7 @@ class UpdateStatusProjectView(LoginRequiredMixin, UpdateView):
     model = Project
     template_name = 'project/update_status_project.html'
     fields = ['statut']
-    success_url = reverse_lazy('list_project')  
+    success_url = reverse_lazy('detail_project')  
 
 # liste des projets
 class ProjectListView(LoginRequiredMixin, ListView):
@@ -78,6 +78,7 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
             raise PermissionDenied("Vous n'avez pas le droit de voir ce projet.")
 
         return obj
+    
 # édition d'un projet
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):  
     model = Project
@@ -93,6 +94,7 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
             raise PermissionDenied("Vous n'avez pas le droit de modifier ce projet.")
         
         return obj
+    
 # suppression d'un projet
 class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
@@ -481,3 +483,11 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
 
 class CustomPasswordResetCompleteView(PasswordResetCompleteView):
     template_name = 'registration/password_reset_complete_CUSTOM.html'
+
+
+class ListhystconnexionView(LoginRequiredMixin, ListView):
+    model = Profile
+    template_name = 'users/historyconnexion.html'
+    context_object_name = 'histories'
+
+        
