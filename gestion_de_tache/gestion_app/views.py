@@ -54,7 +54,6 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
     model = Project
     template_name = 'project/detail_project.html'
     context_object_name = 'project'
-    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -70,14 +69,6 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
         context['assigned_users'] = assigned_users
 
         return context
-
-    def get_object(self, queryset=None):
-        obj = super().get_object(queryset)
-
-        if obj.created_by != self.request.user:
-            raise PermissionDenied("Vous n'avez pas le droit de voir ce projet.")
-
-        return obj
     
 # édition d'un projet
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):  
