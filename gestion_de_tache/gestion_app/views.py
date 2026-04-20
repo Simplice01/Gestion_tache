@@ -308,7 +308,6 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         context['count_tasks_in_progress'] = Task.objects.filter(status='in_progress').count()
         context['count_tasks_done'] = Task.objects.filter(status='done').count()
         context['count_active_users'] = User.objects.filter(assigned_tasks__isnull=False).distinct().count()
-        context['count_history_connexions'] = Profile.objects.filter(last_login__isnull=False).count()
         context['count_projects'] = Project.objects.count()
 
         return context
