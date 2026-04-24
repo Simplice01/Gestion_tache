@@ -2,7 +2,7 @@
 @import './_theme/common';
 @import './_theme/_theme';
 
-$primary-color: #ffab00 !default;
+$primary-color: #fffb00 !default;
 
 @include template-common-theme($primary-color);
 

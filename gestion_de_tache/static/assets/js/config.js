@@ -14,7 +14,7 @@ let config = {
     secondary: '#8592a3',
     success: '#71dd37',
     info: '#00f5bc',
-    warning: '#ffab00',
+    warning: '#fffb00',
     danger: '#ff3e1d',
     dark: '#233446',
     black: '#000',
