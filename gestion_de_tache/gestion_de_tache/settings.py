@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!b=29#!9-27w#uqq)id+q#%mv9h^yvx0m!m=wh1jw!-587c!^*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.105']
+ALLOWED_HOSTS = []
 LOGIN_URL = 'login'
 
 
@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'gestion_app',
+    'tache',
+    'projet',
+    'utilisateur',
 ]
 
 MIDDLEWARE = [
@@ -49,15 +51,20 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'gestion_app.middleware.ForceLogoutIfInactiveMiddleware',
+    'tache.middleware.ForceLogoutIfInactiveMiddleware',
 ]
 
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 ROOT_URLCONF = 'gestion_de_tache.urls'
+
 STATIC_URL = '/static/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],  # ✔️ ICI LA CORRECTION
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
