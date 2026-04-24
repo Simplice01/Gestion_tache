@@ -60,6 +60,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_URLCONF = 'gestion_de_tache.urls'
 
 STATIC_URL = '/static/'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 
 TEMPLATES = [
     {
