@@ -5,13 +5,14 @@
 {% block extra_css %}
 <style>
   .hero {
-    color: white;
+    box-shadow: 0 0.9rem 9rem rgba(0, 0, 0, 0.1);
+    color: rgb(0, 0, 0);
     padding: 110px 20px 90px;
     border-radius: 0 0 28px 28px;
   }
 
   .hero-title {
-    color: white;
+    color: rgb(0, 0, 0);
     font-weight: 700;
     line-height: 1.2;
     max-width: 760px;
@@ -34,7 +35,7 @@
     align-items: center;
     gap: 8px;
     background: rgba(255, 255, 255, 0.14);
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 8px 14px;
     border-radius: 999px;
     font-size: 0.9rem;
@@ -78,7 +79,7 @@
 
   .feature-icon {
     font-size: 34px;
-    color: rgb(2, 213, 255);
+    color: #ffab00;
   }
 
   .feature-title {
@@ -103,25 +104,27 @@
   }
 
   .btn-main {
-    background: rgb(2, 213, 255);
+    background: #ffab00;
     border: none;
-    color: white;
+    color: rgb(0, 0, 0);
   }
 
   .btn-main:hover {
-    background: rgb(2, 213, 255);
-    color: white;
+    background: #ffab00;
+    color:  white;
   }
 
   .btn-soft-light {
-    background: white;
-    color: rgb(2, 213, 255);
-    border: none;
+    background: #ffab00 ;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    border: none ;
   }
 
   .btn-soft-light:hover {
-    background: #f3f4f6;
-    color: rgb(2, 213, 255);
+    background: black;
+    color: #ffab00;
+    border: none;
   }
 
   .mini-stats {
@@ -131,12 +134,13 @@
   .mini-stat-card {
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: #eef2ff 0px 2px 4px, #eef2ff 0px 4px 4px;
     border-radius: 16px;
     padding: 18px 14px;
     text-align: center;
   }
 
-  .mini-stat-number {
+  .mini-stat-number { 
     font-size: 1.4rem;
     font-weight: 700;
     margin-bottom: 0.25rem;

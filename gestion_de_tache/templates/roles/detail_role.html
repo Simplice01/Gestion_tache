@@ -1,40 +1,63 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <div class="d-flex" style="min-height: 100vh;">
-   <!-- Sidebar -->
+
+    <!-- Sidebar -->
     {% include 'dashboard/sidebar.html' %}
-<div class="container mt-5">
 
-    <!-- Carte principale -->
-    <div class="card shadow">
-        <div class="card-header bg-dark text-white">
-            <h4>Les permissions de ce rôle</h4>
+    <!-- Contenu principal -->
+    <div class="container-fluid p-4">
+
+        <!-- Header -->
+        <div class="mb-4">
+            <h2 class="fw-bold">Gestion des rôles</h2>
+            <p class="text-muted">Détails et permissions associées</p>
         </div>
 
-        <div class="card-body">
+        <!-- Card -->
+        <div class="card border-0 shadow-sm">
 
-            <!-- Titre -->
-            <h3 class="mb-3">{{ role.name }}</h3>
-
-
-            <!-- permissions -->
-            <p><strong>Permissions :</strong></p>
-            <div class="border p-3 rounded bg-light">
-                <ul class="list-unstyled">
-                    {% for permission in object.permissions.all %}
-                        <li>{{ permission.name }}</li>
-                    {% endfor %}
-                </ul>
+            <!-- Header Card -->
+            <div class="card-header bg-white border-bottom">
+                <h5 class="mb-0 fw-semibold">Rôle : {{ role.name }}</h5>
             </div>
 
-            <!-- Boutons -->
-            <div class="mt-4">
-                <a href="{% url 'list_role' %}" class="btn btn-secondary">Retour</a>
-            </div>
+            <!-- Body -->
+            <div class="card-body">
 
+                <!-- Section permissions -->
+                <div class="mb-3">
+                    <h6 class="text-uppercase text-muted mb-3">Permissions</h6>
+
+                    <div class="row">
+                        {% for permission in object.permissions.all %}
+                            <div class="col-md-4 mb-2">
+                                <div class="badge bg-light text-dark border p-2 w-100 text-start">
+                                    {{ permission.name }}
+                                </div>
+                            </div>
+                        {% empty %}
+                            <p class="text-muted">Aucune permission assignée.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="d-flex justify-content-between mt-4">
+                    <a href="{% url 'list_role' %}" class="btn btn-outline-secondary">
+                        ← Retour
+                    </a>
+
+                    <a href="#" class="btn btn-primary">
+                        Modifier
+                    </a>
+                </div>
+
+            </div>
         </div>
+
     </div>
-
 </div>
 {% endblock %}

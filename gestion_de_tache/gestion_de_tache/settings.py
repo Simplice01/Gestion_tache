@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-!b=29#!9-27w#uqq)id+q#%mv9h^yvx0m!m=wh1jw!-587c!^*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["192.168.1.121"]
 LOGIN_URL = 'login'
 
 
@@ -59,7 +59,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 ROOT_URLCONF = 'gestion_de_tache.urls'
 
-STATIC_URL = '/static/'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [

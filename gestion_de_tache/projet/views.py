@@ -5,7 +5,8 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView,  
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
-from .models import Project
+from .models import Project 
+from tache.models import Task
 
 
 
