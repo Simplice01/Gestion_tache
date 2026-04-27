@@ -178,14 +178,15 @@
         </div>
 
         <!-- Actions -->
-         {% if user user.is_admin %}
         <div class="d-flex gap-2">
             <a href="{% url 'list_project' %}" class="btn btn-outline-secondary">Retour</a>
-            <a href="{% url 'update_status_project' object.id %}" class="btn btn-success">
-                Mettre à jour le statut
-            </a>
+
+            {% if request.user == object.created_by %}
+                <a href="{% url 'update_status_project' object.id %}" class="btn btn-success">
+                    Mettre à jour le statut
+                </a>
+            {% endif %}
         </div>
-        {% endif %}
 
     </div>
 </div>
