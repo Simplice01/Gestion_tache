@@ -1,6 +1,6 @@
 @charset "UTF-8";
 :root {
-  --bs-blue: #ffab00;
+  --bs-blue: rgb(2, 213, 255);
   --bs-indigo: #ffab00;
   --bs-purple: #ffab00;
   --bs-pink: #e83e8c;
@@ -15,16 +15,16 @@
   --bs-gray-dark: rgba(0, 0, 0, 0.8);
   --bs-gray-25: rgba(0, 0, 0, 0.025);
   --bs-gray-50: rgba(0, 0, 0, 0.05);
-  --bs-primary: #ffab00;
-  --bs-secondary: #8592a3;
-  --bs-success: #ffab00;
-  --bs-info: #ffab00;
-  --bs-warning: #ffab00;
-  --bs-danger: #ff3e1d;
-  --bs-light: #fcfdfd;
-  --bs-dark: #233446;
+  --bs-primary: rgb(2, 213, 255);
+  --bs-secondary: rgb(133, 146, 163);
+  --bs-success: rgb(255, 171, 0);
+  --bs-info: rgb(255, 171, 0);
+  --bs-warning: rgb(255, 171, 0);
+  --bs-danger: rgb(255, 62, 29);
+  --bs-light: rgb(252, 253, 253);
+  --bs-dark: rgb(35, 52, 70);
   --bs-gray: rgba(0, 0, 0, 0.1);
-  --bs-primary-rgb: 255, 171, 0;
+  --bs-primary-rgb: 2, 213, 255;
   --bs-secondary-rgb: 133, 146, 163;
   --bs-success-rgb: 255, 171, 0;
   --bs-info-rgb: 255, 171, 0;
