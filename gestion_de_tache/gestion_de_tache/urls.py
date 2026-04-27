@@ -23,5 +23,10 @@ urlpatterns = [
     path('', include('tache.urls')),
     path('', include('projet.urls')),
     path('', include('utilisateur.urls')),
-    
+
+        
 ]
+
+handler403 = 'utilisateur.views.error_403'
+handler404 = 'utilisateur.views.error_404'
+handler500 = 'utilisateur.views.error_500'

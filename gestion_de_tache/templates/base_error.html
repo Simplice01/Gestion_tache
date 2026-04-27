@@ -1,0 +1,306 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+  lang="fr"
+  class="{% if user.is_authenticated %}light-style layout-menu-fixed{% else %}light-style customizer-hide{% endif %}"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="{% static 'assets/' %}"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+    <title>{% block title %}Gestion de tâche{% endblock %}</title>
+
+    <!-- <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon/favicon.ico' %}" /> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="{% static 'assets/vendor/fonts/boxicons.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/css/core.css' %}" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/css/theme-default.css' %}" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="{% static 'assets/css/demo.css' %}" />
+    <link rel="stylesheet" href="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    {% if not user.is_authenticated %}
+      <link rel="stylesheet" href="{% static 'assets/vendor/css/pages/page-auth.css' %}" />
+    {% endif %}
+
+    <script src="{% static 'assets/vendor/js/helpers.js' %}"></script>
+    <script src="{% static 'assets/js/config.js' %}"></script>
+
+    <style>
+      html, body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+      }
+       
+      section {
+        border-radius: 20px;
+      }
+      /* Navbar */
+      .navbar, .app-navbar-top {
+        border-bottom: 1px solid #e0e0e0 !important;
+        background-color: #ffffff !important;
+      }
+
+      .navbar-brand, .app-brand-text {
+        color: #000000 !important;
+      }
+
+      /* Sidebar */
+      .layout-menu, .layout-sidenav {
+        background-color: #ffffff !important;
+        border-right: 1px solid #e0e0e0 !important;
+      }
+
+      .layout-menu .menu-item .menu-link {
+        color: #333333 !important;
+        
+      }
+
+      /* Tableaux */
+      table, .table {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #e0e0e0 !important;
+      }
+
+      thead, .table thead {
+        background-color: #ffab00 !important;
+        color: #000000 !important;
+      }
+
+      tbody tr {
+        border-bottom: 1px solid #e0e0e0 !important;
+      }
+
+      tbody tr:hover {
+        background-color: #f5f5f5 !important;
+      }
+
+      /* Cartes */
+      .card-header, .title {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+      }
+      .card {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #e0e0e0 !important;
+      }
+
+      .card-body {
+        background-color: #ffffff !important;
+      }
+
+      /* Conteneurs */
+      .container, .container-xxl, .container-fluid {
+        background-color: #ffffff !important;
+      }
+
+    
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: #ffab00 !important;
+        outline: none !important;
+      }
+
+      /* Inputs, Textareas, Selects */
+      input, textarea, select {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #e0e0e0 !important;
+      }
+
+      input::placeholder, textarea::placeholder {
+        color: #999999 !important;
+      }
+
+      /* Barres de recherche */
+      .form-control, .form-select {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #e0e0e0 !important;
+      }
+
+      .form-control:focus, .form-select:focus {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #ffab00 !important;
+      }
+
+      .input-group .form-control {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #e0e0e0 !important;
+      }
+
+      /* Options des selects */
+      option {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+      }
+
+      .layout-menu .menu-item.active > .menu-link,
+      .layout-menu .menu-item.active .menu-link,
+      .layout-menu .menu-link:focus,
+      .layout-menu .menu-link:hover {
+        background-color: #ffab00 !important;
+        color: #000000 !important;
+
+      }
+      
+      .menu-item.active .menu-link {
+    background-color: #ffab00 !important;
+    color: #000000 !important;
+      }
+
+      .layout-menu .menu-item.active > .menu-link .menu-icon,
+      .layout-menu .menu-item.active .menu-link .menu-icon,
+      .layout-menu .menu-link:focus .menu-icon,
+      .layout-menu .menu-link:hover .menu-icon {
+        color: #666666 !important;
+        
+      }
+
+      .layout-menu .menu-item.active > .menu-link .menu-text,
+      .layout-menu .menu-item.active .menu-link .menu-text {
+        color: #000000 !important;
+        background-color: #ffab00 !important;
+      }
+
+      :checked {
+        background-color: #ffab00 !important;
+        border-color: #ffab00 !important;
+      }
+
+      /* Boutons */
+      .btn-success {
+        background-color: #ffab00 !important;
+        border-color: #ffab00 !important;
+        color: #000000 !important;
+      }
+
+      .btn-success:hover {
+        background-color: #ffab00 !important;
+        border-color: #ffab00 !important;
+        color: #000000 !important;
+      }
+
+      .btn-success:active, .btn-success.active {
+        background-color: #ffab00 !important;
+        border-color: #ffab00 !important;
+        color: #000000 !important;
+      }
+
+      .public-page-wrapper {
+        padding-top: 1.5rem;
+      }
+
+      .avatar-wrapper {
+    position: relative;
+    width: 40px;
+    height: 40px;
+      }
+
+      .avatar-circle {
+    width: 40px;
+    height: 40px;
+    border: 2px solid #ffab00;
+    color: #000000;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #fff9e6;
+      }
+      .status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    background-color: #28a745;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+      }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+  </head>
+
+  <body>
+ 
+
+  <!-- NAVBAR PUBLIC -->
+  <nav class="navbar navbar-expand-lg navbar-dark shadow-sm py-3">
+    <div class="container">
+
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="{% url 'home' %}">
+        <i class="bx bx-task text-primary me-2 fs-4"></i>
+        MyTask
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPublic">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarPublic">
+        <ul class="navbar-nav me-auto ms-lg-4">
+          <li class="nav-item">
+            <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">
+              Accueil
+            </a>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+  </nav>
+
+  <div class="container-xxl py-4" id="main-content-wrapper">
+
+  {% block content %}{% endblock %}
+
+
+    <script src="{% static 'assets/vendor/libs/jquery/jquery.js' %}"></script>
+    <script src="{% static 'assets/vendor/libs/popper/popper.js' %}"></script>
+    <script src="{% static 'assets/vendor/js/bootstrap.js' %}"></script>
+    <script src="{% static 'assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'assets/vendor/js/menu.js' %}"></script>
+    <script src="{% static 'assets/js/main.js' %}"></script>
+
+    {% block extra_js %}
+    <script>
+      $(document).ready(function() {
+        $('#search-input').on('keyup', function() {
+          var value = $(this).val().toLowerCase();
+          $('.searchable').each(function() {
+            var text = $(this).text().toLowerCase();
+            if (text.indexOf(value) > -1) {
+              $(this).show();
+            } else {
+              $(this).hide();
+            }
+          });
+        });
+      });
+    </script>
+    {% endblock %}
+  </body>
+</html>
