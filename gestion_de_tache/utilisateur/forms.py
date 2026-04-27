@@ -85,6 +85,15 @@ PERMISSION_TRANSLATIONS = {
     'change_session': 'Modifier une session',
     'delete_session': 'Supprimer une session',
     'view_session': 'Voir une session',
+
+    #PROJET
+    'change_project_status': 'Changer le statut du projet',
+    'finalize_project': 'Finaliser un projet',
+    'view_project': 'Voir un projet',
+    'add_project': 'Créer un projet',
+    'change_project': 'Modifier un projet',
+    'delete_project': 'Supprimer un projet',
+    
 }
 
 
