@@ -54,14 +54,47 @@ class ProjectDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
 
         tasks = Task.objects.filter(project=self.object).order_by('-created_at')
+
         assigned_users = (
             tasks.filter(assigned_to__isnull=False)
             .values('assigned_to__id', 'assigned_to__username')
             .distinct()
         )
 
+        total_tasks = tasks.count()
+        todo_tasks = tasks.filter(status='todo').count()
+        in_progress_tasks = tasks.filter(status='in_progress').count()
+        done_tasks = tasks.filter(status='done').count()
+
+        completion_rate = 0
+        if total_tasks > 0:
+            completion_rate = round((done_tasks / total_tasks) * 100, 2)
+
+        tasks_by_user = (
+            tasks.filter(assigned_to__isnull=False)
+            .values('assigned_to__username')
+            .annotate(total=Count('id'))
+            .order_by('-total')
+        )
+
         context['tasks'] = tasks
         context['assigned_users'] = assigned_users
+
+        context['total_tasks'] = total_tasks
+        context['todo_tasks'] = todo_tasks
+        context['in_progress_tasks'] = in_progress_tasks
+        context['done_tasks'] = done_tasks
+        context['completion_rate'] = completion_rate
+
+        context['chart_status_labels'] = ['À faire', 'En cours', 'Terminées']
+        context['chart_status_data'] = [todo_tasks, in_progress_tasks, done_tasks]
+
+        context['chart_user_labels'] = [
+            item['assigned_to__username'] for item in tasks_by_user
+        ]
+        context['chart_user_data'] = [
+            item['total'] for item in tasks_by_user
+        ]
 
         return context
     
