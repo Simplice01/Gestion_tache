@@ -14,9 +14,10 @@ from .models import Profile
 from django.contrib.auth.models import Group 
 from django.contrib.auth.models import Permission
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+from django.db.models import Count, IntegerField, Value
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib.auth import views as auth_views
+from django.db.models import Case, When, Value, IntegerField
 
 
 # creation de tâche
@@ -37,11 +38,85 @@ class TaskListView(LoginRequiredMixin, ListView):
     model = Task
     template_name = 'task/list_task.html'
     context_object_name = 'tasks'
-    
     paginate_by = 5
 
     def get_queryset(self):
-        return Task.objects.all().order_by('-created_at')
+        queryset = (
+            Task.objects
+            .select_related('assigned_to', 'created_by')
+            .annotate(
+                is_my_task=Case(
+                    When(assigned_to=self.request.user, then=Value(0)),
+                    default=Value(1),
+                    output_field=IntegerField()
+                )
+            )
+        )
+
+        filter_type = self.request.GET.get('filter')
+
+        if filter_type == 'my':
+            queryset = queryset.filter(assigned_to=self.request.user)
+
+        elif filter_type == 'my_todo':
+            queryset = queryset.filter(
+                assigned_to=self.request.user,
+                status='todo'
+            )
+
+        elif filter_type == 'my_in_progress':
+            queryset = queryset.filter(
+                assigned_to=self.request.user,
+                status='in_progress'
+            )
+
+        elif filter_type == 'my_done':
+            queryset = queryset.filter(
+                assigned_to=self.request.user,
+                status='done'
+            )
+
+        elif filter_type == 'my_valid':
+            queryset = queryset.filter(
+                assigned_to=self.request.user,
+                status='valid'
+            )    
+
+        elif filter_type == 'created_by_me':
+            queryset = queryset.filter(created_by=self.request.user)
+
+        return queryset.order_by('is_my_task', '-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['current_filter'] = self.request.GET.get('filter', 'all')
+
+        context['count_my_tasks'] = Task.objects.filter(
+            assigned_to=self.request.user
+        ).count()
+
+        context['count_my_todo'] = Task.objects.filter(
+            assigned_to=self.request.user,
+            status='todo'
+        ).count()
+
+        context['count_my_in_progress'] = Task.objects.filter(
+            assigned_to=self.request.user,
+            status='in_progress'
+        ).count()
+
+        context['count_my_done'] = Task.objects.filter(
+            assigned_to=self.request.user,
+            status='done'
+        ).count()
+
+        context['count_my_valid'] = Task.objects.filter(
+            assigned_to=self.request.user,
+            status='valid'
+        ).count()
+
+        return context
 
 # detail d'une tâche
 class TaskDetailView(LoginRequiredMixin, DetailView):
