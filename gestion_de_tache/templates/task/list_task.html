@@ -6,108 +6,171 @@
     color: #198754;
     border-color: #198754;
   }
+
   .pagination .page-link:hover {
     color: #198754;
     background-color: #e9ecef;
     border-color: #198754;
   }
+
   .pagination .page-item.active .page-link {
     background-color: #198754;
     border-color: #198754;
+  }
+
+  .table-success {
+    background-color: rgba(25, 135, 84, 0.1) !important;
   }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="d-flex" style="min-height: 100vh;">
-   <!-- Sidebar -->
+
     {% include 'dashboard/sidebar.html' %}
     
-            <div class="container-xxl flex-grow-1 container-p-y">
-                <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Liste /</span> Tâches</h4>
-                {% if user.is_authenticated and user.profile.role %}
-                    {% for permission in user.profile.role.permissions.all %}
-                        {% if permission.codename == 'add_task' %}
-                            <a href="{% url 'form_task' %}" class="btn btn-success mb-3">
-                                <small><i class="bi bi-plus"></i></small> Ajouter une tâche
-                            </a>
-                        {% endif %}
-                    {% endfor %}
+    <div class="container-xxl flex-grow-1 container-p-y">
+
+        <h4 class="fw-bold py-3 mb-4">
+            <span class="text-muted fw-light">Liste /</span> Tâches
+        </h4>
+
+        {% if user.is_authenticated and user.profile.role %}
+            {% for permission in user.profile.role.permissions.all %}
+                {% if permission.codename == 'add_task' %}
+                    <a href="{% url 'form_task' %}" class="btn btn-success mb-3">
+                        <small><i class="bi bi-plus"></i></small> Ajouter une tâche
+                    </a>
                 {% endif %}
-              <div class="card">
-                <h5 class="card-header">Liste des tâches</h5>
-                
-                <div class="table-responsive text-nowrap m-3">
-                    <table class="table">
+            {% endfor %}
+        {% endif %}
+
+        <!-- Filtres -->
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body d-flex flex-wrap gap-2">
+
+                <a href="{% url 'list_task' %}"
+                   class="btn btn-sm {% if current_filter == 'all' %}btn-success{% else %}btn-outline-success{% endif %}">
+                    Toutes les tâches
+                </a>
+
+                <a href="?filter=my"
+                   class="btn btn-sm {% if current_filter == 'my' %}btn-success{% else %}btn-outline-success{% endif %}">
+                    Mes tâches
+                    <span class="badge bg-light text-dark ms-1">{{ count_my_tasks }}</span>
+                </a>
+
+                <a href="?filter=my_todo"
+                   class="btn btn-sm {% if current_filter == 'my_todo' %}btn-secondary{% else %}btn-outline-secondary{% endif %}">
+                    Mes tâches à faire
+                    <span class="badge bg-light text-dark ms-1">{{ count_my_todo }}</span>
+                </a>
+
+                <a href="?filter=my_in_progress"
+                   class="btn btn-sm {% if current_filter == 'my_in_progress' %}btn-warning{% else %}btn-outline-warning{% endif %}">
+                    Mes tâches en cours
+                    <span class="badge bg-light text-dark ms-1">{{ count_my_in_progress }}</span>
+                </a>
+
+                <a href="?filter=my_done"
+                   class="btn btn-sm {% if current_filter == 'my_done' %}btn-success{% else %}btn-outline-success{% endif %}">
+                    Mes tâches terminées
+                    <span class="badge bg-light text-dark ms-1">{{ count_my_done }}</span>
+                </a>
+
+                <a href="?filter=created_by_me"
+                   class="btn btn-sm {% if current_filter == 'created_by_me' %}btn-dark{% else %}btn-outline-dark{% endif %}">
+                    Créées par moi
+                </a>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header">Liste des tâches</h5>
+
+            <div class="table-responsive text-nowrap m-3">
+                <table class="table">
+
                     <thead>
-                      <tr>
-                        <th>Titre</th>
-                        <th>Status</th>
-                        <th>Assigné à</th>
-                        <th>Actions</th>
-                      </tr>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Status</th>
+                            <th>Assigné à</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
+
                     <tbody class="table-border-bottom-0">
-                       {% for task in tasks %}
-                    <tr class="searchable">
-                        <td>{{ task.title }}</td>
-                        <td>
-                        {% if task.status == 'todo' %}
-                            <span class="badge bg-secondary text-white">À faire</span>
-                        {% elif task.status == 'in_progress' %}
-                            <span class="badge bg-warning text-dark">En cours</span>
-                        {% elif task.status == 'done' %}
-                            <span class="badge bg-success text-white">Terminé</span>
-                        {% endif %}
-                        </td>
-                        <td>{{ task.assigned_to }}</td>
-            
-                        <td>
-                          <div class="dropdown">
-                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                              <i class="bx bx-dots-vertical-rounded"></i>
-                            </button>
-                            <div class="dropdown-menu p-2">
-                               {% if task.status == 'done' %}
-                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm me-2">
+
+                        {% for task in tasks %}
+                        <tr class="searchable">
+
+                            <td>
+                                {{ task.title }}
+
+                                {% if task.assigned_to == request.user %}
+                                    <span class="badge bg-success ms-2">★ Moi</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if task.status == 'todo' %}
+                                    <span class="badge bg-secondary text-white">À faire</span>
+                                {% elif task.status == 'in_progress' %}
+                                    <span class="badge bg-warning text-dark">En cours</span>
+                                {% elif task.status == 'done' %}
+                                    <span class="badge bg-success text-white">Terminé</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                {% if task.assigned_to %}
+                                    {% if task.assigned_to == request.user %}
+                                        <strong class="text-success">Moi</strong>
+                                    {% else %}
+                                        {{ task.assigned_to }}
+                                    {% endif %}
+                                {% else %}
+                                    <span class="text-muted">Non assignée</span>
+                                {% endif %}
+                            </td>
+
+                            <td>
+                                <div class="dropdown">
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                        <i class="bx bx-dots-vertical-rounded"></i>
+                                    </button>
+
+                                    <div class="dropdown-menu p-2">
+
+                                        {% if task.status == 'done' %}
+                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
                                                 <i class="bi bi-eye"></i>
                                             </a>
 
                                         {% elif task.status == 'in_progress' %}
-                                            {% if task.assigned_to != request.user %}
                                             <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            {% else %}
-                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            <a href="{% url 'update_status' task.id %}" class="btn btn-warning btn-sm">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
-                                            {% endif %}
-                                     {% elif task.status == 'todo' %}
-                                        {% if task.assigned_to != request.user %}
-                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
-                                                <i class="bi bi-eye"></i>
-                                            </a>
-                                            {% if task.created_by == request.user %}
-                                                <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
-                                                    {% csrf_token %}
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Voulez-vous vraiment supprimer cette tâche ?');">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </form>
+
+                                            {% if task.assigned_to == request.user %}
+                                                <a href="{% url 'update_status' task.id %}" class="btn btn-warning btn-sm">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
                                             {% endif %}
 
-                                        {% else %}
+                                        {% elif task.status == 'todo' %}
                                             <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            <a href="{% url 'update_status' task.id %}" class="btn btn-warning btn-sm">
-                                                <i class="bi bi-pencil"></i>
-                                            </a>
+
+                                            {% if task.assigned_to == request.user %}
+                                                <a href="{% url 'update_status' task.id %}" class="btn btn-warning btn-sm">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
+                                            {% endif %}
+
                                             {% if task.created_by == request.user %}
                                                 <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
                                                     {% csrf_token %}
@@ -118,72 +181,53 @@
                                                 </form>
                                             {% endif %}
                                         {% endif %}
-                                    {% endif %}
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="4" class="text-center text-muted">Aucune tâche</td>
-                    </tr>
-                    {% endfor %}
+
+                                    </div>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        {% empty %}
+                        <tr>
+                            <td colspan="4" class="text-center text-muted">
+                                Aucune tâche trouvée pour ce filtre.
+                            </td>
+                        </tr>
+                        {% endfor %}
+
                     </tbody>
-                  </table>
-                </div>
-                
-                <!-- Pagination -->
-                {% if is_paginated %}
-                <nav aria-label="Page navigation" class="d-flex justify-content-center mb-4">
-                  <ul class="pagination">
-                    {% if page_obj.has_previous %}
-                      <li class="page-item">
-                        <a class="page-link" href="?page=1"><i class="tf-icon bx bx-chevrons-left"></i></a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}"><i class="tf-icon bx bx-chevron-left"></i></a>
-                      </li>
-                    {% else %}
-                      <li class="page-item disabled">
-                        <span class="page-link"><i class="tf-icon bx bx-chevrons-left"></i></span>
-                      </li>
-                      <li class="page-item disabled">
-                        <span class="page-link"><i class="tf-icon bx bx-chevron-left"></i></span>
-                      </li>
-                    {% endif %}
-                    
-                    {% for num in page_obj.paginator.page_range %}
-                      {% if page_obj.number == num %}
-                        <li class="page-item active">
-                          <span class="page-link">{{ num }}</span>
-                        </li>
-                      {% else %}
-                        <li class="page-item">
-                          <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                        </li>
-                      {% endif %}
-                    {% endfor %}
-                    
-                    {% if page_obj.has_next %}
-                      <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"><i class="tf-icon bx bx-chevron-right"></i></a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"><i class="tf-icon bx bx-chevrons-right"></i></a>
-                      </li>
-                    {% else %}
-                      <li class="page-item disabled">
-                        <span class="page-link"><i class="tf-icon bx bx-chevron-right"></i></span>
-                      </li>
-                      <li class="page-item disabled">
-                        <span class="page-link"><i class="tf-icon bx bx-chevrons-right"></i></span>
-                      </li>
-                    {% endif %}
-                  </ul>
-                </nav>
-                {% endif %}
-              </div>
+                </table>
             </div>
+
+            {% if is_paginated %}
+            <nav class="d-flex justify-content-center mb-4">
+                <ul class="pagination">
+
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?filter={{ current_filter }}&page={{ page_obj.previous_page_number }}">←</a>
+                        </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                            <a class="page-link" href="?filter={{ current_filter }}&page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?filter={{ current_filter }}&page={{ page_obj.next_page_number }}">→</a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+            {% endif %}
+
         </div>
+
+    </div>
+</div>
 {% endblock %}

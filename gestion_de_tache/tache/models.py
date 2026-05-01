@@ -13,6 +13,7 @@ class Task(models.Model):
         ('todo', 'À faire'),
         ('in_progress', 'En cours'),
         ('done', 'Terminé'),
+        ('valid', 'Validé'),
     ]
     project = models.ForeignKey(
     Project,
