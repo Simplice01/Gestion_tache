@@ -79,8 +79,9 @@
                                            
 
                                              {% if request.user == object.created_by %}
-                                                <a href="{% url 'edit_project' project.id %}" class="btn btn-warning btn-sm me-1">
-                                             {% endif %}     
+                                                <a href="{% url 'edit_project' project.id %}" class="btn btn-primary btn-sm me-1">
+                                             {% endif %}
+
                                             {% if permission.codename == 'change_task' %}
                                                 <a href="{% url 'edit_project' project.id %}" class="btn btn-primary btn-sm me-1">
                                                     <i class="bi bi-pencil"></i>

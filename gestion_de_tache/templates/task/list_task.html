@@ -59,6 +59,9 @@
                         {% elif task.status == 'done' %}
                             <span class="badge bg-success text-white">Terminé</span>
                         {% endif %}
+                        {% elif task.status == 'valid' %}
+                            <span class="badge bg-success text-white">Validée</span>
+                        {% endif %}
                         </td>
                         <td>{{ task.assigned_to }}</td>
             
