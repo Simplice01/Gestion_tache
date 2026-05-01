@@ -102,6 +102,33 @@
                     </thead>
 
                     <tbody class="table-border-bottom-0">
+                       {% for task in tasks %}
+                    <tr class="searchable">
+                        <td>{{ task.title }}</td>
+                        <td>
+                        {% if task.status == 'todo' %}
+                            <span class="badge bg-secondary text-white">À faire</span>
+                        {% elif task.status == 'in_progress' %}
+                            <span class="badge bg-warning text-dark">En cours</span>
+                        {% elif task.status == 'done' %}
+                            <span class="badge bg-success text-white">Terminé</span>
+                        {% endif %}
+                        {% elif task.status == 'valid' %}
+                            <span class="badge bg-success text-white">Validée</span>
+                        {% endif %}
+                        </td>
+                        <td>{{ task.assigned_to }}</td>
+            
+                        <td>
+                          <div class="dropdown">
+                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                              <i class="bx bx-dots-vertical-rounded"></i>
+                            </button>
+                            <div class="dropdown-menu p-2">
+                               {% if task.status == 'done' %}
+                                            <a href="{% url 'detail_task' task.id %}" class="btn btn-info btn-sm me-2">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
 
                         {% for task in tasks %}
                         <tr class="searchable">
